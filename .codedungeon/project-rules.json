@@ -1,0 +1,12 @@
+{
+  "status": "approved",
+  "rules_path": ".codedungeon/project-rules.md",
+  "compact_path": ".codedungeon/project-rules.compact.md",
+  "source_digest": "013f967a483ccdd24f301c3c3b09f079830fbc9948b478516c001c0d8ab55f3a",
+  "rules_digest": "3cfc7da06128fb69b4457625bdb2ea6a46298c99ef604ed165dae89855c63cbd",
+  "approved_at": "2026-04-27T23:32:09Z",
+  "approved_by": "codex",
+  "sources": [
+    "AGENTS.md"
+  ]
+}
