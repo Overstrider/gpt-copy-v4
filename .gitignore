@@ -14,3 +14,4 @@ frontend/playwright-report/
 frontend/coverage/
 
 .codedungeon/*.db-journal
+.codedungeon/logs/
