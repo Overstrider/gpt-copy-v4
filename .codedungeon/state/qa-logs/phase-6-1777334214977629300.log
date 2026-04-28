@@ -1,0 +1,14 @@
+$ npm run typecheck
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+components/ChatApp.tsx(353,26): error TS2322: Type '{ children: string; className: string; remarkPlugins: ((options?: Options | null | undefined) => undefined)[]; }' is not assignable to type 'IntrinsicAttributes & Readonly<Options>'.
+  Property 'className' does not exist on type 'IntrinsicAttributes & Readonly<Options>'.
+
+[stderr]
+
+
+[error]
+exit status 2

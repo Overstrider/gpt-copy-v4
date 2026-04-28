@@ -1,0 +1,50 @@
+$ npm run test
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mE:/minima/codedungeon/examples/v4/frontend[39m
+
+ [31m❯[39m components/ChatApp.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 23[2mms[22m[39m
+[31m   [31m×[31m ChatApp[2m > [22mrenders conversations and assistant markdown[39m[32m 18[2mms[22m[39m
+[31m     → React is not defined[39m
+[31m   [31m×[31m ChatApp[2m > [22mstreams a sent message through the composer[39m[32m 3[2mms[22m[39m
+[31m     → React is not defined[39m
+[31m   [31m×[31m ChatApp[2m > [22mshows a user-visible error when sending fails[39m[32m 2[2mms[22m[39m
+[31m     → React is not defined[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[90m (3)[39m
+[2m   Start at [22m 20:58:37
+[2m   Duration [22m 1.45s[2m (transform 57ms, setup 68ms, collect 356ms, tests 23ms, environment 494ms, prepare 257ms)[22m
+
+[stderr]
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m components/ChatApp.test.tsx[2m > [22mChatApp[2m > [22mrenders conversations and assistant markdown
+[41m[1m FAIL [22m[49m components/ChatApp.test.tsx[2m > [22mChatApp[2m > [22mstreams a sent message through the composer
+[41m[1m FAIL [22m[49m components/ChatApp.test.tsx[2m > [22mChatApp[2m > [22mshows a user-visible error when sending fails
+[31m[1mReferenceError[22m: React is not defined[39m
+[36m [2m❯[22m ChatApp components/ChatApp.tsx:[2m147:3[22m[39m
+    [90m145| [39m  }
+    [90m146| [39m
+    [90m147| [39m  [35mreturn[39m (
+    [90m   | [39m  [31m^[39m
+    [90m148| [39m    [33m<[39m[33mmain[39m [33mclassName[39m[33m=[39m[32m"flex h-dvh bg-[#f6f5f2] text-[#151514]"[39m[33m>[39m
+    [90m149| [39m      [33m<[39m[33mConversationSidebar[39m
+[90m [2m❯[22m Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:[2m25904:20[22m[39m
+[90m [2m❯[22m renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:[2m7662:22[22m[39m
+[90m [2m❯[22m updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:[2m10166:19[22m[39m
+[90m [2m❯[22m beginWork node_modules/react-dom/cjs/react-dom-client.development.js:[2m11778:18[22m[39m
+[90m [2m❯[22m runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:[2m874:13[22m[39m
+[90m [2m❯[22m performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:[2m17641:22[22m[39m
+[90m [2m❯[22m workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:[2m17469:41[22m[39m
+[90m [2m❯[22m renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:[2m17450:11[22m[39m
+[90m [2m❯[22m performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:[2m16583:35[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[error]
+exit status 1

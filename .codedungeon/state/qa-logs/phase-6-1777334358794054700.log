@@ -1,0 +1,1352 @@
+$ npm run test
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mE:/minima/codedungeon/examples/v4/frontend[39m
+
+ [31m❯[39m components/ChatApp.test.tsx [2m([22m[2m3 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 273[2mms[22m[39m
+   [32m✓[39m ChatApp[2m > [22mrenders conversations and assistant markdown[32m 166[2mms[22m[39m
+[31m   [31m×[31m ChatApp[2m > [22mstreams a sent message through the composer[39m[32m 62[2mms[22m[39m
+[31m     → Found multiple elements with the text of: /message/i
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<textarea[31m
+  [33maria-label[31m=[32m"Message"[31m
+  [33mclass[31m=[32m"max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"[31m
+  [33mplaceholder[31m=[32m"Message gpt-copy-v4"[31m
+  [33mrows[31m=[32m"1"[31m
+[36m/>[31m
+
+Ignored nodes: comments, script, style
+[36m<button[31m
+  [33maria-label[31m=[32m"Send message"[31m
+  [33mclass[31m=[32m"inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]"[31m
+  [33mdisabled[31m=[32m""[31m
+  [33mtitle[31m=[32m"Send message"[31m
+  [33mtype[31m=[32m"submit"[31m
+[36m>[31m
+  [36m<svg[31m
+    [33maria-hidden[31m=[32m"true"[31m
+    [33mclass[31m=[32m"lucide lucide-send h-4 w-4"[31m
+    [33mfill[31m=[32m"none"[31m
+    [33mheight[31m=[32m"24"[31m
+    [33mstroke[31m=[32m"currentColor"[31m
+    [33mstroke-linecap[31m=[32m"round"[31m
+    [33mstroke-linejoin[31m=[32m"round"[31m
+    [33mstroke-width[31m=[32m"2"[31m
+    [33mviewBox[31m=[32m"0 0 24 24"[31m
+    [33mwidth[31m=[32m"24"[31m
+    [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+  [36m>[31m
+    [36m<path[31m
+      [33md[31m=[32m"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"[31m
+    [36m/>[31m
+    [36m<path[31m
+      [33md[31m=[32m"m21.854 2.147-10.94 10.939"[31m
+    [36m/>[31m
+  [36m</svg>[31m
+[36m</button>[31m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<main[31m
+      [33mclass[31m=[32m"flex h-dvh bg-[#f6f5f2] text-[#151514]"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"fixed inset-0 z-20 bg-black/30 transition-opacity md:hidden pointer-events-none opacity-0"[31m
+      [36m/>[31m
+      [36m<aside[31m
+        [33mclass[31m=[32m"fixed inset-y-0 left-0 z-30 flex w-[18rem] max-w-[86vw] flex-col border-r border-[#d8d1c4] bg-[#25231f] text-[#f7f3eb] transition-transform md:static md:z-auto md:translate-x-0 -translate-x-full"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-3"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"flex min-w-0 items-center gap-2"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"flex h-8 w-8 items-center justify-center rounded-md bg-[#2f8f6b]"[31m
+            [36m>[31m
+              [36m<svg[31m
+                [33maria-hidden[31m=[32m"true"[31m
+                [33mclass[31m=[32m"lucide lucide-message-square h-4 w-4"[31m
+                [33mfill[31m=[32m"none"[31m
+                [33mheight[31m=[32m"24"[31m
+                [33mstroke[31m=[32m"currentColor"[31m
+                [33mstroke-linecap[31m=[32m"round"[31m
+                [33mstroke-linejoin[31m=[32m"round"[31m
+                [33mstroke-width[31m=[32m"2"[31m
+                [33mviewBox[31m=[32m"0 0 24 24"[31m
+                [33mwidth[31m=[32m"24"[31m
+                [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+              [36m>[31m
+                [36m<path[31m
+                  [33md[31m=[32m"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"[31m
+                [36m/>[31m
+              [36m</svg>[31m
+            [36m</div>[31m
+            [36m<span[31m
+              [33mclass[31m=[32m"truncate text-sm font-semibold"[31m
+            [36m>[31m
+              [0mgpt-copy-v4[0m
+            [36m</span>[31m
+          [36m</div>[31m
+          [36m<button[31m
+            [33maria-label[31m=[32m"Close conversations"[31m
+            [33mclass[31m=[32m"inline-flex h-9 w-9 items-center justify-center rounded-md text-[#e8e2d8] hover:bg-white/10 md:hidden"[31m
+            [33mtitle[31m=[32m"Close conversations"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33maria-hidden[31m=[32m"true"[31m
+              [33mclass[31m=[32m"lucide lucide-panel-left-close h-5 w-5"[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mstroke[31m=[32m"currentColor"[31m
+              [33mstroke-linecap[31m=[32m"round"[31m
+              [33mstroke-linejoin[31m=[32m"round"[31m
+              [33mstroke-width[31m=[32m"2"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<rect[31m
+                [33mheight[31m=[32m"18"[31m
+                [33mrx[31m=[32m"2"[31m
+                [33mwidth[31m=[32m"18"[31m
+                [33mx[31m=[32m"3"[31m
+                [33my[31m=[32m"3"[31m
+              [36m/>[31m
+              [36m<path[31m
+                [33md[31m=[32m"M9 3v18"[31m
+              [36m/>[31m
+              [36m<path[31m
+                [33md[31m=[32m"m16 15-3-3 3-3"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+          [36m</button>[31m
+        [36m</div>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"p-3"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33mclass[31m=[32m"flex h-10 w-full items-center justify-center gap-2 rounded-md border border-white/15 bg-white/8 px-3 text-sm font-medium hover:bg-white/14"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33maria-hidden[31m=[32m"true"[31m
+              [33mclass[31m=[32m"lucide lucide-plus h-4 w-4"[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mstroke[31m=[32m"currentColor"[31m
+              [33mstroke-linecap[31m=[32m"round"[31m
+              [33mstroke-linejoin[31m=[32m"round"[31m
+              [33mstroke-width[31m=[32m"2"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<path[31m
+                [33md[31m=[32m"M5 12h14"[31m
+              [36m/>[31m
+              [36m<path[31m
+                [33md[31m=[32m"M12 5v14"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+            [0mNew chat[0m
+          [36m</button>[31m
+        [36m</div>[31m
+        [36m<nav[31m
+          [33mclass[31m=[32m"min-h-0 flex-1 space-y-1 overflow-y-auto px-2 pb-3"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33mclass[31m=[32m"flex h-10 w-full items-center gap-2 rounded-md px-3 text-left text-sm bg-[#f7f3eb] text-[#25231f]"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33maria-hidden[31m=[32m"true"[31m
+              [33mclass[31m=[32m"lucide lucide-message-square h-4 w-4 shrink-0"[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mstroke[31m=[32m"currentColor"[31m
+              [33mstroke-linecap[31m=[32m"round"[31m
+              [33mstroke-linejoin[31m=[32m"round"[31m
+              [33mstroke-width[31m=[32m"2"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<path[31m
+                [33md[31m=[32m"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+            [36m<span[31m
+              [33mclass[31m=[32m"truncate"[31m
+            [36m>[31m
+              [0mPlanning[0m
+            [36m</span>[31m
+          [36m</button>[31m
+        [36m</nav>[31m
+      [36m</aside>[31m
+      [36m<section[31m
+        [33mclass[31m=[32m"flex min-w-0 flex-1 flex-col"[31m
+      [36m>[31m
+        [36m<header[31m
+          [33mclass[31m=[32m"flex h-14 shrink-0 items-center gap-3 border-b border-[#ded9cf] bg-[#fbfaf8]/90 px-3 backdrop-blur sm:px-5"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33maria-label[31m=[32m"Open conversations"[31m
+            [33mclass[31m=[32m"inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#d4cec1] bg-white text-[#4b4741] shadow-sm md:hidden"[31m
+            [33mtitle[31m=[32m"Open conversations"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33maria-hidden[31m=[32m"true"[31m
+              [33mclass[31m=[32m"lucide lucide-menu h-5 w-5"[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mstroke[31m=[32m"currentColor"[31m
+              [33mstroke-linecap[31m=[32m"round"[31m
+              [33mstroke-linejoin[31m=[32m"round"[31m
+              [33mstroke-width[31m=[32m"2"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<line[31m
+                [33mx1[31m=[32m"4"[31m
+                [33mx2[31m=[32m"20"[31m
+                [33my1[31m=[32m"12"[31m
+                [33my2[31m=[32m"12"[31m
+              [36m/>[31m
+              [36m<line[31m
+                [33mx1[31m=[32m"4"[31m
+                [33mx2[31m=[32m"20"[31m
+                [33my1[31m=[32m"6"[31m
+                [33my2[31m=[32m"6"[31m
+              [36m/>[31m
+              [36m<line[31m
+                [33mx1[31m=[32m"4"[31m
+                [33mx2[31m=[32m"20"[31m
+                [33my1[31m=[32m"18"[31m
+                [33my2[31m=[32m"18"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+          [36m</button>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"min-w-0"[31m
+          [36m>[31m
+            [36m<h1[31m
+              [33mclass[31m=[32m"truncate text-base font-semibold"[31m
+            [36m>[31m
+              [0mPlanning[0m
+            [36m</h1>[31m
+          [36m</div>[31m
+        [36m</header>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"flex min-h-0 flex-1 flex-col"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"min-h-0 flex-1 overflow-y-auto"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"mx-auto flex min-h-full w-full max-w-3xl flex-col px-4 py-6 sm:px-6"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"flex items-center gap-2 py-6 text-sm text-[#6c665d]"[31m
+              [36m>[31m
+                [36m<svg[31m
+                  [33maria-hidden[31m=[32m"true"[31m
+                  [33mclass[31m=[32m"lucide lucide-loader-circle h-4 w-4 animate-spin"[31m
+                  [33mfill[31m=[32m"none"[31m
+                  [33mheight[31m=[32m"24"[31m
+                  [33mstroke[31m=[32m"currentColor"[31m
+                  [33mstroke-linecap[31m=[32m"round"[31m
+                  [33mstroke-linejoin[31m=[32m"round"[31m
+                  [33mstroke-width[31m=[32m"2"[31m
+                  [33mviewBox[31m=[32m"0 0 24 24"[31m
+                  [33mwidth[31m=[32m"24"[31m
+                  [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                [36m>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"M21 12a9 9 0 1 1-6.219-8.56"[31m
+                  [36m/>[31m
+                [36m</svg>[31m
+                [0mLoading messages[0m
+              [36m</div>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"space-y-5"[31m
+              [36m/>[31m
+            [36m</div>[31m
+          [36m</div>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"border-t border-[#ded9cf] bg-[#fbfaf8] px-3 py-3 sm:px-5"[31m
+          [36m>[31m
+            [36m<form[31m
+              [33mclass[31m=[32m"mx-auto flex w-full max-w-3xl items-end gap-2 rounded-lg border border-[#d4cec1] bg-white p-2 shadow-sm"[31m
+            [36m>[31m
+              [36m<textarea[31m
+                [33maria-label[31m=[32m"Message"[31m
+                [33mclass[31m=[32m"max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"[31m
+                [33mplaceholder[31m=[32m"Message gpt-copy-v4"[31m
+                [33mrows[31m=[32m"1"[31m
+              [36m/>[31m
+              [36m<button[31m
+                [33maria-label[31m=[32m"Send message"[31m
+                [33mclass[31m=[32m"inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]"[31m
+                [33mdisabled[31m=[32m""[31m
+                [33mtitle[31m=[32m"Send message"[31m
+                [33mtype[31m=[32m"submit"[31m
+              [36m>[31m
+                [36m<svg[31m
+                  [33maria-hidden[31m=[32m"true"[31m
+                  [33mclass[31m=[32m"lucide lucide-send h-4 w-4"[31m
+                  [33mfill[31m=[32m"none"[31m
+                  [33mheight[31m=[32m"24"[31m
+                  [33mstroke[31m=[32m"currentColor"[31m
+                  [33mstroke-linecap[31m=[32m"round"[31m
+                  [33mstroke-linejoin[31m=[32m"round"[31m
+                  [33mstroke-width[31m=[32m"2"[31m
+                  [33mviewBox[31m=[32m"0 0 24 24"[31m
+                  [33mwidth[31m=[32m"24"[31m
+                  [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                [36m>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"[31m
+                  [36m/>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"m21.854 2.147-10.94 10.939"[31m
+                  [36m/>[31m
+                [36m</svg>[31m
+              [36m</button>[31m
+            [36m</form>[31m
+          [36m</div>[31m
+        [36m</div>[31m
+      [36m</section>[31m
+    [36m</main>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+[31m   [31m×[31m ChatApp[2m > [22mshows a user-visible error when sending fails[39m[32m 44[2mms[22m[39m
+[31m     → Found multiple elements with the text of: /message/i
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<textarea[31m
+  [33maria-label[31m=[32m"Message"[31m
+  [33mclass[31m=[32m"max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"[31m
+  [33mplaceholder[31m=[32m"Message gpt-copy-v4"[31m
+  [33mrows[31m=[32m"1"[31m
+[36m/>[31m
+
+Ignored nodes: comments, script, style
+[36m<button[31m
+  [33maria-label[31m=[32m"Send message"[31m
+  [33mclass[31m=[32m"inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]"[31m
+  [33mdisabled[31m=[32m""[31m
+  [33mtitle[31m=[32m"Send message"[31m
+  [33mtype[31m=[32m"submit"[31m
+[36m>[31m
+  [36m<svg[31m
+    [33maria-hidden[31m=[32m"true"[31m
+    [33mclass[31m=[32m"lucide lucide-send h-4 w-4"[31m
+    [33mfill[31m=[32m"none"[31m
+    [33mheight[31m=[32m"24"[31m
+    [33mstroke[31m=[32m"currentColor"[31m
+    [33mstroke-linecap[31m=[32m"round"[31m
+    [33mstroke-linejoin[31m=[32m"round"[31m
+    [33mstroke-width[31m=[32m"2"[31m
+    [33mviewBox[31m=[32m"0 0 24 24"[31m
+    [33mwidth[31m=[32m"24"[31m
+    [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+  [36m>[31m
+    [36m<path[31m
+      [33md[31m=[32m"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"[31m
+    [36m/>[31m
+    [36m<path[31m
+      [33md[31m=[32m"m21.854 2.147-10.94 10.939"[31m
+    [36m/>[31m
+  [36m</svg>[31m
+[36m</button>[31m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[31m
+  [36m<div>[31m
+    [36m<main[31m
+      [33mclass[31m=[32m"flex h-dvh bg-[#f6f5f2] text-[#151514]"[31m
+    [36m>[31m
+      [36m<div[31m
+        [33mclass[31m=[32m"fixed inset-0 z-20 bg-black/30 transition-opacity md:hidden pointer-events-none opacity-0"[31m
+      [36m/>[31m
+      [36m<aside[31m
+        [33mclass[31m=[32m"fixed inset-y-0 left-0 z-30 flex w-[18rem] max-w-[86vw] flex-col border-r border-[#d8d1c4] bg-[#25231f] text-[#f7f3eb] transition-transform md:static md:z-auto md:translate-x-0 -translate-x-full"[31m
+      [36m>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-3"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"flex min-w-0 items-center gap-2"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"flex h-8 w-8 items-center justify-center rounded-md bg-[#2f8f6b]"[31m
+            [36m>[31m
+              [36m<svg[31m
+                [33maria-hidden[31m=[32m"true"[31m
+                [33mclass[31m=[32m"lucide lucide-message-square h-4 w-4"[31m
+                [33mfill[31m=[32m"none"[31m
+                [33mheight[31m=[32m"24"[31m
+                [33mstroke[31m=[32m"currentColor"[31m
+                [33mstroke-linecap[31m=[32m"round"[31m
+                [33mstroke-linejoin[31m=[32m"round"[31m
+                [33mstroke-width[31m=[32m"2"[31m
+                [33mviewBox[31m=[32m"0 0 24 24"[31m
+                [33mwidth[31m=[32m"24"[31m
+                [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+              [36m>[31m
+                [36m<path[31m
+                  [33md[31m=[32m"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"[31m
+                [36m/>[31m
+              [36m</svg>[31m
+            [36m</div>[31m
+            [36m<span[31m
+              [33mclass[31m=[32m"truncate text-sm font-semibold"[31m
+            [36m>[31m
+              [0mgpt-copy-v4[0m
+            [36m</span>[31m
+          [36m</div>[31m
+          [36m<button[31m
+            [33maria-label[31m=[32m"Close conversations"[31m
+            [33mclass[31m=[32m"inline-flex h-9 w-9 items-center justify-center rounded-md text-[#e8e2d8] hover:bg-white/10 md:hidden"[31m
+            [33mtitle[31m=[32m"Close conversations"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33maria-hidden[31m=[32m"true"[31m
+              [33mclass[31m=[32m"lucide lucide-panel-left-close h-5 w-5"[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mstroke[31m=[32m"currentColor"[31m
+              [33mstroke-linecap[31m=[32m"round"[31m
+              [33mstroke-linejoin[31m=[32m"round"[31m
+              [33mstroke-width[31m=[32m"2"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<rect[31m
+                [33mheight[31m=[32m"18"[31m
+                [33mrx[31m=[32m"2"[31m
+                [33mwidth[31m=[32m"18"[31m
+                [33mx[31m=[32m"3"[31m
+                [33my[31m=[32m"3"[31m
+              [36m/>[31m
+              [36m<path[31m
+                [33md[31m=[32m"M9 3v18"[31m
+              [36m/>[31m
+              [36m<path[31m
+                [33md[31m=[32m"m16 15-3-3 3-3"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+          [36m</button>[31m
+        [36m</div>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"p-3"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33mclass[31m=[32m"flex h-10 w-full items-center justify-center gap-2 rounded-md border border-white/15 bg-white/8 px-3 text-sm font-medium hover:bg-white/14"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33maria-hidden[31m=[32m"true"[31m
+              [33mclass[31m=[32m"lucide lucide-plus h-4 w-4"[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mstroke[31m=[32m"currentColor"[31m
+              [33mstroke-linecap[31m=[32m"round"[31m
+              [33mstroke-linejoin[31m=[32m"round"[31m
+              [33mstroke-width[31m=[32m"2"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<path[31m
+                [33md[31m=[32m"M5 12h14"[31m
+              [36m/>[31m
+              [36m<path[31m
+                [33md[31m=[32m"M12 5v14"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+            [0mNew chat[0m
+          [36m</button>[31m
+        [36m</div>[31m
+        [36m<nav[31m
+          [33mclass[31m=[32m"min-h-0 flex-1 space-y-1 overflow-y-auto px-2 pb-3"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33mclass[31m=[32m"flex h-10 w-full items-center gap-2 rounded-md px-3 text-left text-sm bg-[#f7f3eb] text-[#25231f]"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33maria-hidden[31m=[32m"true"[31m
+              [33mclass[31m=[32m"lucide lucide-message-square h-4 w-4 shrink-0"[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mstroke[31m=[32m"currentColor"[31m
+              [33mstroke-linecap[31m=[32m"round"[31m
+              [33mstroke-linejoin[31m=[32m"round"[31m
+              [33mstroke-width[31m=[32m"2"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<path[31m
+                [33md[31m=[32m"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+            [36m<span[31m
+              [33mclass[31m=[32m"truncate"[31m
+            [36m>[31m
+              [0mPlanning[0m
+            [36m</span>[31m
+          [36m</button>[31m
+        [36m</nav>[31m
+      [36m</aside>[31m
+      [36m<section[31m
+        [33mclass[31m=[32m"flex min-w-0 flex-1 flex-col"[31m
+      [36m>[31m
+        [36m<header[31m
+          [33mclass[31m=[32m"flex h-14 shrink-0 items-center gap-3 border-b border-[#ded9cf] bg-[#fbfaf8]/90 px-3 backdrop-blur sm:px-5"[31m
+        [36m>[31m
+          [36m<button[31m
+            [33maria-label[31m=[32m"Open conversations"[31m
+            [33mclass[31m=[32m"inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#d4cec1] bg-white text-[#4b4741] shadow-sm md:hidden"[31m
+            [33mtitle[31m=[32m"Open conversations"[31m
+            [33mtype[31m=[32m"button"[31m
+          [36m>[31m
+            [36m<svg[31m
+              [33maria-hidden[31m=[32m"true"[31m
+              [33mclass[31m=[32m"lucide lucide-menu h-5 w-5"[31m
+              [33mfill[31m=[32m"none"[31m
+              [33mheight[31m=[32m"24"[31m
+              [33mstroke[31m=[32m"currentColor"[31m
+              [33mstroke-linecap[31m=[32m"round"[31m
+              [33mstroke-linejoin[31m=[32m"round"[31m
+              [33mstroke-width[31m=[32m"2"[31m
+              [33mviewBox[31m=[32m"0 0 24 24"[31m
+              [33mwidth[31m=[32m"24"[31m
+              [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+            [36m>[31m
+              [36m<line[31m
+                [33mx1[31m=[32m"4"[31m
+                [33mx2[31m=[32m"20"[31m
+                [33my1[31m=[32m"12"[31m
+                [33my2[31m=[32m"12"[31m
+              [36m/>[31m
+              [36m<line[31m
+                [33mx1[31m=[32m"4"[31m
+                [33mx2[31m=[32m"20"[31m
+                [33my1[31m=[32m"6"[31m
+                [33my2[31m=[32m"6"[31m
+              [36m/>[31m
+              [36m<line[31m
+                [33mx1[31m=[32m"4"[31m
+                [33mx2[31m=[32m"20"[31m
+                [33my1[31m=[32m"18"[31m
+                [33my2[31m=[32m"18"[31m
+              [36m/>[31m
+            [36m</svg>[31m
+          [36m</button>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"min-w-0"[31m
+          [36m>[31m
+            [36m<h1[31m
+              [33mclass[31m=[32m"truncate text-base font-semibold"[31m
+            [36m>[31m
+              [0mPlanning[0m
+            [36m</h1>[31m
+          [36m</div>[31m
+        [36m</header>[31m
+        [36m<div[31m
+          [33mclass[31m=[32m"flex min-h-0 flex-1 flex-col"[31m
+        [36m>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"min-h-0 flex-1 overflow-y-auto"[31m
+          [36m>[31m
+            [36m<div[31m
+              [33mclass[31m=[32m"mx-auto flex min-h-full w-full max-w-3xl flex-col px-4 py-6 sm:px-6"[31m
+            [36m>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"flex items-center gap-2 py-6 text-sm text-[#6c665d]"[31m
+              [36m>[31m
+                [36m<svg[31m
+                  [33maria-hidden[31m=[32m"true"[31m
+                  [33mclass[31m=[32m"lucide lucide-loader-circle h-4 w-4 animate-spin"[31m
+                  [33mfill[31m=[32m"none"[31m
+                  [33mheight[31m=[32m"24"[31m
+                  [33mstroke[31m=[32m"currentColor"[31m
+                  [33mstroke-linecap[31m=[32m"round"[31m
+                  [33mstroke-linejoin[31m=[32m"round"[31m
+                  [33mstroke-width[31m=[32m"2"[31m
+                  [33mviewBox[31m=[32m"0 0 24 24"[31m
+                  [33mwidth[31m=[32m"24"[31m
+                  [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                [36m>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"M21 12a9 9 0 1 1-6.219-8.56"[31m
+                  [36m/>[31m
+                [36m</svg>[31m
+                [0mLoading messages[0m
+              [36m</div>[31m
+              [36m<div[31m
+                [33mclass[31m=[32m"space-y-5"[31m
+              [36m/>[31m
+            [36m</div>[31m
+          [36m</div>[31m
+          [36m<div[31m
+            [33mclass[31m=[32m"border-t border-[#ded9cf] bg-[#fbfaf8] px-3 py-3 sm:px-5"[31m
+          [36m>[31m
+            [36m<form[31m
+              [33mclass[31m=[32m"mx-auto flex w-full max-w-3xl items-end gap-2 rounded-lg border border-[#d4cec1] bg-white p-2 shadow-sm"[31m
+            [36m>[31m
+              [36m<textarea[31m
+                [33maria-label[31m=[32m"Message"[31m
+                [33mclass[31m=[32m"max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"[31m
+                [33mplaceholder[31m=[32m"Message gpt-copy-v4"[31m
+                [33mrows[31m=[32m"1"[31m
+              [36m/>[31m
+              [36m<button[31m
+                [33maria-label[31m=[32m"Send message"[31m
+                [33mclass[31m=[32m"inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]"[31m
+                [33mdisabled[31m=[32m""[31m
+                [33mtitle[31m=[32m"Send message"[31m
+                [33mtype[31m=[32m"submit"[31m
+              [36m>[31m
+                [36m<svg[31m
+                  [33maria-hidden[31m=[32m"true"[31m
+                  [33mclass[31m=[32m"lucide lucide-send h-4 w-4"[31m
+                  [33mfill[31m=[32m"none"[31m
+                  [33mheight[31m=[32m"24"[31m
+                  [33mstroke[31m=[32m"currentColor"[31m
+                  [33mstroke-linecap[31m=[32m"round"[31m
+                  [33mstroke-linejoin[31m=[32m"round"[31m
+                  [33mstroke-width[31m=[32m"2"[31m
+                  [33mviewBox[31m=[32m"0 0 24 24"[31m
+                  [33mwidth[31m=[32m"24"[31m
+                  [33mxmlns[31m=[32m"http://www.w3.org/2000/svg"[31m
+                [36m>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"[31m
+                  [36m/>[31m
+                  [36m<path[31m
+                    [33md[31m=[32m"m21.854 2.147-10.94 10.939"[31m
+                  [36m/>[31m
+                [36m</svg>[31m
+              [36m</button>[31m
+            [36m</form>[31m
+          [36m</div>[31m
+        [36m</div>[31m
+      [36m</section>[31m
+    [36m</main>[31m
+  [36m</div>[31m
+[36m</body>[31m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 20:59:16
+[2m   Duration [22m 1.98s[2m (transform 57ms, setup 67ms, collect 359ms, tests 273ms, environment 496ms, prepare 66ms)[22m
+
+[stderr]
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m components/ChatApp.test.tsx[2m > [22mChatApp[2m > [22mstreams a sent message through the composer
+[31m[1mTestingLibraryElementError[22m[39m: Found multiple elements with the text of: /message/i
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<textarea[39m
+  [33maria-label[39m=[32m"Message"[39m
+  [33mclass[39m=[32m"max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"[39m
+  [33mplaceholder[39m=[32m"Message gpt-copy-v4"[39m
+  [33mrows[39m=[32m"1"[39m
+[36m/>[39m
+
+Ignored nodes: comments, script, style
+[36m<button[39m
+  [33maria-label[39m=[32m"Send message"[39m
+  [33mclass[39m=[32m"inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]"[39m
+  [33mdisabled[39m=[32m""[39m
+  [33mtitle[39m=[32m"Send message"[39m
+  [33mtype[39m=[32m"submit"[39m
+[36m>[39m
+  [36m<svg[39m
+    [33maria-hidden[39m=[32m"true"[39m
+    [33mclass[39m=[32m"lucide lucide-send h-4 w-4"[39m
+    [33mfill[39m=[32m"none"[39m
+    [33mheight[39m=[32m"24"[39m
+    [33mstroke[39m=[32m"currentColor"[39m
+    [33mstroke-linecap[39m=[32m"round"[39m
+    [33mstroke-linejoin[39m=[32m"round"[39m
+    [33mstroke-width[39m=[32m"2"[39m
+    [33mviewBox[39m=[32m"0 0 24 24"[39m
+    [33mwidth[39m=[32m"24"[39m
+    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+  [36m>[39m
+    [36m<path[39m
+      [33md[39m=[32m"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"[39m
+    [36m/>[39m
+    [36m<path[39m
+      [33md[39m=[32m"m21.854 2.147-10.94 10.939"[39m
+    [36m/>[39m
+  [36m</svg>[39m
+[36m</button>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"flex h-dvh bg-[#f6f5f2] text-[#151514]"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"fixed inset-0 z-20 bg-black/30 transition-opacity md:hidden pointer-events-none opacity-0"[39m
+      [36m/>[39m
+      [36m<aside[39m
+        [33mclass[39m=[32m"fixed inset-y-0 left-0 z-30 flex w-[18rem] max-w-[86vw] flex-col border-r border-[#d8d1c4] bg-[#25231f] text-[#f7f3eb] transition-transform md:static md:z-auto md:translate-x-0 -translate-x-full"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex min-w-0 items-center gap-2"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex h-8 w-8 items-center justify-center rounded-md bg-[#2f8f6b]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-message-square h-4 w-4"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</div>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"truncate text-sm font-semibold"[39m
+            [36m>[39m
+              [0mgpt-copy-v4[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Close conversations"[39m
+            [33mclass[39m=[32m"inline-flex h-9 w-9 items-center justify-center rounded-md text-[#e8e2d8] hover:bg-white/10 md:hidden"[39m
+            [33mtitle[39m=[32m"Close conversations"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-panel-left-close h-5 w-5"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<rect[39m
+                [33mheight[39m=[32m"18"[39m
+                [33mrx[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"18"[39m
+                [33mx[39m=[32m"3"[39m
+                [33my[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M9 3v18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m16 15-3-3 3-3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"p-3"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"flex h-10 w-full items-center justify-center gap-2 rounded-md border border-white/15 bg-white/8 px-3 text-sm font-medium hover:bg-white/14"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus h-4 w-4"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mNew chat[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<nav[39m
+          [33mclass[39m=[32m"min-h-0 flex-1 space-y-1 overflow-y-auto px-2 pb-3"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"flex h-10 w-full items-center gap-2 rounded-md px-3 text-left text-sm bg-[#f7f3eb] text-[#25231f]"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-message-square h-4 w-4 shrink-0"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"truncate"[39m
+            [36m>[39m
+              [0mPlanning[0m
+            [36m</span>[39m
+          [36m</button>[39m
+        [36m</nav>[39m
+      [36m</aside>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"flex min-w-0 flex-1 flex-col"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"flex h-14 shrink-0 items-center gap-3 border-b border-[#ded9cf] bg-[#fbfaf8]/90 px-3 backdrop-blur sm:px-5"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Open conversations"[39m
+            [33mclass[39m=[32m"inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#d4cec1] bg-white text-[#4b4741] shadow-sm md:hidden"[39m
+            [33mtitle[39m=[32m"Open conversations"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-menu h-5 w-5"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<line[39m
+                [33mx1[39m=[32m"4"[39m
+                [33mx2[39m=[32m"20"[39m
+                [33my1[39m=[32m"12"[39m
+                [33my2[39m=[32m"12"[39m
+              [36m/>[39m
+              [36m<line[39m
+                [33mx1[39m=[32m"4"[39m
+                [33mx2[39m=[32m"20"[39m
+                [33my1[39m=[32m"6"[39m
+                [33my2[39m=[32m"6"[39m
+              [36m/>[39m
+              [36m<line[39m
+                [33mx1[39m=[32m"4"[39m
+                [33mx2[39m=[32m"20"[39m
+                [33my1[39m=[32m"18"[39m
+                [33my2[39m=[32m"18"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"min-w-0"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mclass[39m=[32m"truncate text-base font-semibold"[39m
+            [36m>[39m
+              [0mPlanning[0m
+            [36m</h1>[39m
+          [36m</div>[39m
+        [36m</header>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex min-h-0 flex-1 flex-col"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"min-h-0 flex-1 overflow-y-auto"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mx-auto flex min-h-full w-full max-w-3xl flex-col px-4 py-6 sm:px-6"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center gap-2 py-6 text-sm text-[#6c665d]"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"lucide lucide-loader-circle h-4 w-4 animate-spin"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"24"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"2"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"24"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M21 12a9 9 0 1 1-6.219-8.56"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+                [0mLoading messages[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"space-y-5"[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"border-t border-[#ded9cf] bg-[#fbfaf8] px-3 py-3 sm:px-5"[39m
+          [36m>[39m
+            [36m<form[39m
+              [33mclass[39m=[32m"mx-auto flex w-full max-w-3xl items-end gap-2 rounded-lg border border-[#d4cec1] bg-white p-2 shadow-sm"[39m
+            [36m>[39m
+              [36m<textarea[39m
+                [33maria-label[39m=[32m"Message"[39m
+                [33mclass[39m=[32m"max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"[39m
+                [33mplaceholder[39m=[32m"Message gpt-copy-v4"[39m
+                [33mrows[39m=[32m"1"[39m
+              [36m/>[39m
+              [36m<button[39m
+                [33maria-label[39m=[32m"Send message"[39m
+                [33mclass[39m=[32m"inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]"[39m
+                [33mdisabled[39m=[32m""[39m
+                [33mtitle[39m=[32m"Send message"[39m
+                [33mtype[39m=[32m"submit"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"lucide lucide-send h-4 w-4"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"24"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"2"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"24"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"[39m
+                  [36m/>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"m21.854 2.147-10.94 10.939"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</button>[39m
+            [36m</form>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</main>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m getElementError node_modules/@testing-library/dom/dist/query-helpers.js:[2m20:35[22m[39m
+[90m [2m❯[22m getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:[2m23:10[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m55:13[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m components/ChatApp.test.tsx:[2m84:28[22m[39m
+    [90m 82| [39m
+    [90m 83| [39m    [35mawait[39m screen[33m.[39m[34mfindByRole[39m([32m"button"[39m[33m,[39m { name[33m:[39m [36m/planning/i[39m })[33m;[39m
+    [90m 84| [39m    [35mawait[39m user[33m.[39m[34mtype[39m(screen[33m.[39m[34mgetByLabelText[39m([36m/message/i[39m)[33m,[39m [32m"Hello model"[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m 85| [39m    await user.click(screen.getByRole("button", { name: /send message/…
+    [90m 86| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m components/ChatApp.test.tsx[2m > [22mChatApp[2m > [22mshows a user-visible error when sending fails
+[31m[1mTestingLibraryElementError[22m[39m: Found multiple elements with the text of: /message/i
+
+Here are the matching elements:
+
+Ignored nodes: comments, script, style
+[36m<textarea[39m
+  [33maria-label[39m=[32m"Message"[39m
+  [33mclass[39m=[32m"max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"[39m
+  [33mplaceholder[39m=[32m"Message gpt-copy-v4"[39m
+  [33mrows[39m=[32m"1"[39m
+[36m/>[39m
+
+Ignored nodes: comments, script, style
+[36m<button[39m
+  [33maria-label[39m=[32m"Send message"[39m
+  [33mclass[39m=[32m"inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]"[39m
+  [33mdisabled[39m=[32m""[39m
+  [33mtitle[39m=[32m"Send message"[39m
+  [33mtype[39m=[32m"submit"[39m
+[36m>[39m
+  [36m<svg[39m
+    [33maria-hidden[39m=[32m"true"[39m
+    [33mclass[39m=[32m"lucide lucide-send h-4 w-4"[39m
+    [33mfill[39m=[32m"none"[39m
+    [33mheight[39m=[32m"24"[39m
+    [33mstroke[39m=[32m"currentColor"[39m
+    [33mstroke-linecap[39m=[32m"round"[39m
+    [33mstroke-linejoin[39m=[32m"round"[39m
+    [33mstroke-width[39m=[32m"2"[39m
+    [33mviewBox[39m=[32m"0 0 24 24"[39m
+    [33mwidth[39m=[32m"24"[39m
+    [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+  [36m>[39m
+    [36m<path[39m
+      [33md[39m=[32m"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"[39m
+    [36m/>[39m
+    [36m<path[39m
+      [33md[39m=[32m"m21.854 2.147-10.94 10.939"[39m
+    [36m/>[39m
+  [36m</svg>[39m
+[36m</button>[39m
+
+(If this is intentional, then use the `*AllBy*` variant of the query (like `queryAllByText`, `getAllByText`, or `findAllByText`)).
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<main[39m
+      [33mclass[39m=[32m"flex h-dvh bg-[#f6f5f2] text-[#151514]"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"fixed inset-0 z-20 bg-black/30 transition-opacity md:hidden pointer-events-none opacity-0"[39m
+      [36m/>[39m
+      [36m<aside[39m
+        [33mclass[39m=[32m"fixed inset-y-0 left-0 z-30 flex w-[18rem] max-w-[86vw] flex-col border-r border-[#d8d1c4] bg-[#25231f] text-[#f7f3eb] transition-transform md:static md:z-auto md:translate-x-0 -translate-x-full"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex h-14 shrink-0 items-center justify-between border-b border-white/10 px-3"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"flex min-w-0 items-center gap-2"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex h-8 w-8 items-center justify-center rounded-md bg-[#2f8f6b]"[39m
+            [36m>[39m
+              [36m<svg[39m
+                [33maria-hidden[39m=[32m"true"[39m
+                [33mclass[39m=[32m"lucide lucide-message-square h-4 w-4"[39m
+                [33mfill[39m=[32m"none"[39m
+                [33mheight[39m=[32m"24"[39m
+                [33mstroke[39m=[32m"currentColor"[39m
+                [33mstroke-linecap[39m=[32m"round"[39m
+                [33mstroke-linejoin[39m=[32m"round"[39m
+                [33mstroke-width[39m=[32m"2"[39m
+                [33mviewBox[39m=[32m"0 0 24 24"[39m
+                [33mwidth[39m=[32m"24"[39m
+                [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+              [36m>[39m
+                [36m<path[39m
+                  [33md[39m=[32m"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"[39m
+                [36m/>[39m
+              [36m</svg>[39m
+            [36m</div>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"truncate text-sm font-semibold"[39m
+            [36m>[39m
+              [0mgpt-copy-v4[0m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Close conversations"[39m
+            [33mclass[39m=[32m"inline-flex h-9 w-9 items-center justify-center rounded-md text-[#e8e2d8] hover:bg-white/10 md:hidden"[39m
+            [33mtitle[39m=[32m"Close conversations"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-panel-left-close h-5 w-5"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<rect[39m
+                [33mheight[39m=[32m"18"[39m
+                [33mrx[39m=[32m"2"[39m
+                [33mwidth[39m=[32m"18"[39m
+                [33mx[39m=[32m"3"[39m
+                [33my[39m=[32m"3"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M9 3v18"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"m16 15-3-3 3-3"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"p-3"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"flex h-10 w-full items-center justify-center gap-2 rounded-md border border-white/15 bg-white/8 px-3 text-sm font-medium hover:bg-white/14"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-plus h-4 w-4"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M5 12h14"[39m
+              [36m/>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M12 5v14"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [0mNew chat[0m
+          [36m</button>[39m
+        [36m</div>[39m
+        [36m<nav[39m
+          [33mclass[39m=[32m"min-h-0 flex-1 space-y-1 overflow-y-auto px-2 pb-3"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33mclass[39m=[32m"flex h-10 w-full items-center gap-2 rounded-md px-3 text-left text-sm bg-[#f7f3eb] text-[#25231f]"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-message-square h-4 w-4 shrink-0"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<path[39m
+                [33md[39m=[32m"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"truncate"[39m
+            [36m>[39m
+              [0mPlanning[0m
+            [36m</span>[39m
+          [36m</button>[39m
+        [36m</nav>[39m
+      [36m</aside>[39m
+      [36m<section[39m
+        [33mclass[39m=[32m"flex min-w-0 flex-1 flex-col"[39m
+      [36m>[39m
+        [36m<header[39m
+          [33mclass[39m=[32m"flex h-14 shrink-0 items-center gap-3 border-b border-[#ded9cf] bg-[#fbfaf8]/90 px-3 backdrop-blur sm:px-5"[39m
+        [36m>[39m
+          [36m<button[39m
+            [33maria-label[39m=[32m"Open conversations"[39m
+            [33mclass[39m=[32m"inline-flex h-10 w-10 items-center justify-center rounded-md border border-[#d4cec1] bg-white text-[#4b4741] shadow-sm md:hidden"[39m
+            [33mtitle[39m=[32m"Open conversations"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [36m<svg[39m
+              [33maria-hidden[39m=[32m"true"[39m
+              [33mclass[39m=[32m"lucide lucide-menu h-5 w-5"[39m
+              [33mfill[39m=[32m"none"[39m
+              [33mheight[39m=[32m"24"[39m
+              [33mstroke[39m=[32m"currentColor"[39m
+              [33mstroke-linecap[39m=[32m"round"[39m
+              [33mstroke-linejoin[39m=[32m"round"[39m
+              [33mstroke-width[39m=[32m"2"[39m
+              [33mviewBox[39m=[32m"0 0 24 24"[39m
+              [33mwidth[39m=[32m"24"[39m
+              [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+            [36m>[39m
+              [36m<line[39m
+                [33mx1[39m=[32m"4"[39m
+                [33mx2[39m=[32m"20"[39m
+                [33my1[39m=[32m"12"[39m
+                [33my2[39m=[32m"12"[39m
+              [36m/>[39m
+              [36m<line[39m
+                [33mx1[39m=[32m"4"[39m
+                [33mx2[39m=[32m"20"[39m
+                [33my1[39m=[32m"6"[39m
+                [33my2[39m=[32m"6"[39m
+              [36m/>[39m
+              [36m<line[39m
+                [33mx1[39m=[32m"4"[39m
+                [33mx2[39m=[32m"20"[39m
+                [33my1[39m=[32m"18"[39m
+                [33my2[39m=[32m"18"[39m
+              [36m/>[39m
+            [36m</svg>[39m
+          [36m</button>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"min-w-0"[39m
+          [36m>[39m
+            [36m<h1[39m
+              [33mclass[39m=[32m"truncate text-base font-semibold"[39m
+            [36m>[39m
+              [0mPlanning[0m
+            [36m</h1>[39m
+          [36m</div>[39m
+        [36m</header>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex min-h-0 flex-1 flex-col"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"min-h-0 flex-1 overflow-y-auto"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"mx-auto flex min-h-full w-full max-w-3xl flex-col px-4 py-6 sm:px-6"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"flex items-center gap-2 py-6 text-sm text-[#6c665d]"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"lucide lucide-loader-circle h-4 w-4 animate-spin"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"24"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"2"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"24"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M21 12a9 9 0 1 1-6.219-8.56"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+                [0mLoading messages[0m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"space-y-5"[39m
+              [36m/>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"border-t border-[#ded9cf] bg-[#fbfaf8] px-3 py-3 sm:px-5"[39m
+          [36m>[39m
+            [36m<form[39m
+              [33mclass[39m=[32m"mx-auto flex w-full max-w-3xl items-end gap-2 rounded-lg border border-[#d4cec1] bg-white p-2 shadow-sm"[39m
+            [36m>[39m
+              [36m<textarea[39m
+                [33maria-label[39m=[32m"Message"[39m
+                [33mclass[39m=[32m"max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"[39m
+                [33mplaceholder[39m=[32m"Message gpt-copy-v4"[39m
+                [33mrows[39m=[32m"1"[39m
+              [36m/>[39m
+              [36m<button[39m
+                [33maria-label[39m=[32m"Send message"[39m
+                [33mclass[39m=[32m"inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]"[39m
+                [33mdisabled[39m=[32m""[39m
+                [33mtitle[39m=[32m"Send message"[39m
+                [33mtype[39m=[32m"submit"[39m
+              [36m>[39m
+                [36m<svg[39m
+                  [33maria-hidden[39m=[32m"true"[39m
+                  [33mclass[39m=[32m"lucide lucide-send h-4 w-4"[39m
+                  [33mfill[39m=[32m"none"[39m
+                  [33mheight[39m=[32m"24"[39m
+                  [33mstroke[39m=[32m"currentColor"[39m
+                  [33mstroke-linecap[39m=[32m"round"[39m
+                  [33mstroke-linejoin[39m=[32m"round"[39m
+                  [33mstroke-width[39m=[32m"2"[39m
+                  [33mviewBox[39m=[32m"0 0 24 24"[39m
+                  [33mwidth[39m=[32m"24"[39m
+                  [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+                [36m>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"[39m
+                  [36m/>[39m
+                  [36m<path[39m
+                    [33md[39m=[32m"m21.854 2.147-10.94 10.939"[39m
+                  [36m/>[39m
+                [36m</svg>[39m
+              [36m</button>[39m
+            [36m</form>[39m
+          [36m</div>[39m
+        [36m</div>[39m
+      [36m</section>[39m
+    [36m</main>[39m
+  [36m</div>[39m
+[36m</body>[39m
+[90m [2m❯[22m Object.getElementError node_modules/@testing-library/dom/dist/config.js:[2m37:19[22m[39m
+[90m [2m❯[22m getElementError node_modules/@testing-library/dom/dist/query-helpers.js:[2m20:35[22m[39m
+[90m [2m❯[22m getMultipleElementsFoundError node_modules/@testing-library/dom/dist/query-helpers.js:[2m23:10[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m55:13[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m95:19[22m[39m
+[36m [2m❯[22m components/ChatApp.test.tsx:[2m104:28[22m[39m
+    [90m102| [39m
+    [90m103| [39m    [35mawait[39m screen[33m.[39m[34mfindByRole[39m([32m"button"[39m[33m,[39m { name[33m:[39m [36m/planning/i[39m })[33m;[39m
+    [90m104| [39m    [35mawait[39m user[33m.[39m[34mtype[39m(screen[33m.[39m[34mgetByLabelText[39m([36m/message/i[39m)[33m,[39m [32m"Please fail"[39m)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m105| [39m    await user.click(screen.getByRole("button", { name: /send message/…
+    [90m106| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+[error]
+exit status 1

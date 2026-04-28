@@ -1,0 +1,41 @@
+$ npm run test:e2e
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 1 test using 1 worker
+
+  x  1 [chromium] › e2e\chat.spec.ts:9:1 › sends a message through the chat UI (724ms)
+
+
+  1) [chromium] › e2e\chat.spec.ts:9:1 › sends a message through the chat UI ───────────────────────
+
+    Error: locator.fill: Error: strict mode violation: getByLabel('Message') resolved to 2 elements:
+        1) <textarea rows="1" aria-label="Message" placeholder="Message gpt-copy-v4" class="max-h-40 min-h-11 flex-1 resize-none bg-transparent px-2 py-2 text-sm leading-6 outline-none placeholder:text-[#8a8378]"></textarea> aka getByRole('textbox', { name: 'Message' })
+        2) <button disabled type="submit" title="Send message" aria-label="Send message" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-[#25231f] text-white disabled:cursor-not-allowed disabled:bg-[#b9b2a7]">…</button> aka getByRole('button', { name: 'Send message' })
+
+    Call log:
+    [2m  - waiting for getByLabel('Message')[22m
+
+
+      113 |
+      114 |   await page.goto("/");
+    > 115 |   await page.getByLabel("Message").fill("Hello from Playwright");
+          |                                    ^
+      116 |   await page.getByLabel("Send message").click();
+      117 |
+      118 |   await expect(page.getByText("Hello from Playwright")).toBeVisible();
+        at E:\minima\codedungeon\examples\v4\frontend\e2e\chat.spec.ts:115:36
+
+    Error Context: test-results\chat-sends-a-message-through-the-chat-UI-chromium\error-context.md
+
+  1 failed
+    [chromium] › e2e\chat.spec.ts:9:1 › sends a message through the chat UI ────────────────────────
+
+[stderr]
+
+
+[error]
+exit status 1
