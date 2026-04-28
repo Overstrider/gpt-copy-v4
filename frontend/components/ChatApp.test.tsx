@@ -203,6 +203,36 @@ describe("ChatApp", () => {
     expect(screen.getByText("Persisted before event")).toBeInTheDocument();
   });
 
+  it("keeps the original stream error when recovery refetch fails", async () => {
+    const user = userEvent.setup();
+    vi.mocked(api.listMessages)
+      .mockResolvedValueOnce([assistantMessage])
+      .mockRejectedValueOnce(new Error("Recovery fetch failed"));
+    vi.mocked(api.sendMessageStream).mockImplementationOnce(
+      async (_conversationId, content, handlers) => {
+        handlers.onUserMessage?.({
+          id: "user-refetch-fail",
+          conversation_id: "c1",
+          role: "user",
+          content,
+          created_at: now,
+        });
+        handlers.onChunk?.("partial that should clear");
+        throw new Error("Provider failed mid-stream");
+      },
+    );
+
+    renderChat();
+
+    await screen.findByRole("button", { name: /planning/i });
+    await user.type(screen.getByRole("textbox", { name: /^message$/i }), "Refetch will fail");
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    expect(await screen.findByText("Provider failed mid-stream")).toBeInTheDocument();
+    expect(screen.queryByText("Recovery fetch failed")).not.toBeInTheDocument();
+    expect(screen.queryByText("partial that should clear")).not.toBeInTheDocument();
+  });
+
   it("prevents switching conversations while a stream is in flight", async () => {
     const user = userEvent.setup();
     let resolveStream: (() => void) | undefined;

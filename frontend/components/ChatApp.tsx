@@ -176,20 +176,24 @@ export function ChatApp() {
       });
       setPendingTurn(null);
     } catch (caught) {
-      if (activeConversationId) {
-        const conversationId = activeConversationId;
-        await queryClient.invalidateQueries({ queryKey: ["conversations"] });
-        await queryClient.invalidateQueries({
-          queryKey: ["messages", conversationId],
-          refetchType: "none",
-        });
-        await queryClient.fetchQuery({
-          queryKey: ["messages", conversationId],
-          queryFn: () => listMessages(conversationId),
-        });
-      }
       setPendingTurn(null);
       setError(caught instanceof Error ? caught.message : "Message failed to send.");
+      if (activeConversationId) {
+        const conversationId = activeConversationId;
+        try {
+          await queryClient.invalidateQueries({ queryKey: ["conversations"] });
+          await queryClient.invalidateQueries({
+            queryKey: ["messages", conversationId],
+            refetchType: "none",
+          });
+          await queryClient.fetchQuery({
+            queryKey: ["messages", conversationId],
+            queryFn: () => listMessages(conversationId),
+          });
+        } catch {
+          // Keep the original stream error visible even if recovery refetch fails.
+        }
+      }
     } finally {
       setIsSending(false);
     }
