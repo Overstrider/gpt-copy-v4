@@ -19,6 +19,13 @@ const conversation: Conversation = {
   updated_at: now,
 };
 
+const secondConversation: Conversation = {
+  id: "c2",
+  title: "Archive",
+  created_at: now,
+  updated_at: now,
+};
+
 const assistantMessage: Message = {
   id: "m1",
   conversation_id: "c1",
@@ -194,5 +201,54 @@ describe("ChatApp", () => {
     expect(await screen.findByText("OpenRouter request failed")).toBeInTheDocument();
     await waitFor(() => expect(api.listMessages).toHaveBeenCalledTimes(2));
     expect(screen.getByText("Persisted before event")).toBeInTheDocument();
+  });
+
+  it("prevents switching conversations while a stream is in flight", async () => {
+    const user = userEvent.setup();
+    let resolveStream: (() => void) | undefined;
+    const streamFinished = new Promise<void>((resolve) => {
+      resolveStream = resolve;
+    });
+
+    vi.mocked(api.listConversations).mockResolvedValue([conversation, secondConversation]);
+    vi.mocked(api.sendMessageStream).mockImplementationOnce(
+      async (_conversationId, content, handlers) => {
+        handlers.onUserMessage?.({
+          id: "user-inflight",
+          conversation_id: "c1",
+          role: "user",
+          content,
+          created_at: now,
+        });
+        handlers.onChunk?.("still streaming");
+        await streamFinished;
+        handlers.onAssistantMessage?.({
+          id: "assistant-inflight",
+          conversation_id: "c1",
+          role: "assistant",
+          content: "done",
+          created_at: now,
+        });
+      },
+    );
+
+    renderChat();
+
+    await screen.findByRole("button", { name: /planning/i });
+    await user.type(screen.getByRole("textbox", { name: /^message$/i }), "Keep this scoped");
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    await waitFor(() => expect(api.sendMessageStream).toHaveBeenCalled());
+    const archiveButton = screen.getByRole("button", { name: /archive/i });
+    expect(archiveButton).toBeDisabled();
+
+    await user.click(archiveButton);
+
+    expect(screen.getByRole("heading", { name: /planning/i })).toBeInTheDocument();
+    expect(screen.getByText("Keep this scoped")).toBeInTheDocument();
+    expect(screen.getByText("still streaming")).toBeInTheDocument();
+
+    resolveStream?.();
+    await waitFor(() => expect(screen.queryByText("Thinking")).not.toBeInTheDocument());
   });
 });

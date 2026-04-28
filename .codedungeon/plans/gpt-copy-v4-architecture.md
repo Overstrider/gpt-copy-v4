@@ -19,8 +19,9 @@ PROJECT_RULES_READ: yes
   - `Arc<dyn ChatProvider>` for OpenRouter or test mock.
   - `AppConfig` for API key, model, frontend origin, database URL, bind address.
 - SQLite tables:
-  - `conversations(id TEXT PRIMARY KEY, title TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)`.
+  - `conversations(id TEXT PRIMARY KEY, title TEXT NOT NULL, title_generated INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL, updated_at TEXT NOT NULL)`.
   - `messages(id TEXT PRIMARY KEY, conversation_id TEXT NOT NULL, role TEXT NOT NULL, content TEXT NOT NULL, created_at TEXT NOT NULL, FOREIGN KEY(conversation_id) REFERENCES conversations(id) ON DELETE CASCADE)`.
+- Generated default titles may be replaced by the first user message; explicit user-provided titles are preserved.
 - Startup runs idempotent migrations from embedded SQL.
 
 ## Backend API

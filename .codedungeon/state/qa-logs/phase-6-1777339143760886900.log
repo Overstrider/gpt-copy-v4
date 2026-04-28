@@ -1,0 +1,15 @@
+$ npm run test:e2e
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 1 test using 1 worker
+
+  ok 1 [chromium] › e2e\chat.spec.ts:9:1 › sends a message through the chat UI (880ms)
+
+  1 passed (7.2s)
+
+[stderr]
+

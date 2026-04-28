@@ -1,0 +1,41 @@
+$ cargo test stream_decoder_accepts_utf8_split_across_network_chunks
+
+[stdout]
+
+
+[stderr]
+Compiling gpt-copy-v4-backend v0.1.0 (E:\minima\codedungeon\examples\v4\backend)
+error: let chains are only allowed in Rust 2024 or later
+   --> src\openrouter.rs:207:18
+    |
+207 |       let stream = async_stream::try_stream! {
+    |  __________________^
+208 | |         let mut buffer = Vec::new();
+209 | |         tokio::pin!(bytes);
+...   |
+237 | |     };
+    | |_____^
+    |
+    = note: this error originates in the macro `$crate::__private::try_stream_inner` which comes from the expansion of the macro `async_stream::try_stream` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error[E0282]: type annotations needed
+  --> src\config.rs:21:13
+   |
+21 |         let bind_addr = env::var("BIND_ADDR")
+   |             ^^^^^^^^^
+...
+26 |         if !bind_addr.ip().is_loopback() {
+   |             --------- type must be known at this point
+   |
+help: consider giving `bind_addr` an explicit type
+   |
+21 |         let bind_addr: /* Type */ = env::var("BIND_ADDR")
+   |                      ++++++++++++
+
+For more information about this error, try `rustc --explain E0282`.
+error: could not compile `gpt-copy-v4-backend` (lib) due to 2 previous errors
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `gpt-copy-v4-backend` (lib test) due to 2 previous errors
+
+[error]
+exit status 101

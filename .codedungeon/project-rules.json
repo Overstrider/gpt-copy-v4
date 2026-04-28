@@ -2,11 +2,20 @@
   "status": "approved",
   "rules_path": ".codedungeon/project-rules.md",
   "compact_path": ".codedungeon/project-rules.compact.md",
-  "source_digest": "013f967a483ccdd24f301c3c3b09f079830fbc9948b478516c001c0d8ab55f3a",
+  "source_digest": "50886add6ff12356f3c8ed143d1ee9607ffc1d4e3e9aa9d7d097d232c14088fb",
   "rules_digest": "3cfc7da06128fb69b4457625bdb2ea6a46298c99ef604ed165dae89855c63cbd",
-  "approved_at": "2026-04-27T23:32:09Z",
-  "approved_by": "codex",
+  "approved_at": "2026-04-28T01:19:29Z",
+  "approved_by": "codex-resume",
   "sources": [
-    "AGENTS.md"
+    ".env.example",
+    "AGENTS.md",
+    "README.md",
+    "backend/Cargo.toml",
+    "frontend/next.config.ts",
+    "frontend/package.json",
+    "frontend/playwright.config.ts",
+    "frontend/postcss.config.js",
+    "frontend/tailwind.config.ts",
+    "frontend/vitest.config.ts"
   ]
 }

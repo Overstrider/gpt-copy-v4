@@ -31,8 +31,11 @@ export function ChatApp() {
   const [draft, setDraft] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isSending, setIsSending] = useState(false);
-  const [optimisticMessages, setOptimisticMessages] = useState<Message[]>([]);
-  const [streamingMessage, setStreamingMessage] = useState<Message | null>(null);
+  const [pendingTurn, setPendingTurn] = useState<{
+    conversationId: string;
+    optimisticMessages: Message[];
+    streamingMessage: Message | null;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const conversationsQuery = useQuery({
@@ -52,8 +55,6 @@ export function ChatApp() {
   }, [conversations, selectedConversationId]);
 
   useEffect(() => {
-    setOptimisticMessages([]);
-    setStreamingMessage(null);
     setError(null);
   }, [selectedConversationId]);
 
@@ -77,9 +78,15 @@ export function ChatApp() {
   );
 
   const baseMessages = messagesQuery.data ?? emptyMessages;
-  const displayedMessages = streamingMessage
-    ? [...baseMessages, ...optimisticMessages, streamingMessage]
-    : [...baseMessages, ...optimisticMessages];
+  const activePendingTurn =
+    pendingTurn?.conversationId === selectedConversationId ? pendingTurn : null;
+  const displayedMessages = activePendingTurn?.streamingMessage
+    ? [
+        ...baseMessages,
+        ...activePendingTurn.optimisticMessages,
+        activePendingTurn.streamingMessage,
+      ]
+    : [...baseMessages, ...(activePendingTurn?.optimisticMessages ?? [])];
 
   async function handleNewConversation() {
     setError(null);
@@ -98,8 +105,7 @@ export function ChatApp() {
     setDraft("");
     setError(null);
     setIsSending(true);
-    setOptimisticMessages([]);
-    setStreamingMessage(null);
+    setPendingTurn(null);
 
     let activeConversationId = selectedConversationId;
 
@@ -112,25 +118,50 @@ export function ChatApp() {
       }
 
       const conversationId = activeConversationId;
+      setPendingTurn({
+        conversationId,
+        optimisticMessages: [],
+        streamingMessage: null,
+      });
       await sendMessageStream(conversationId, content, {
         onUserMessage: (message) => {
-          setOptimisticMessages([message]);
-        },
-        onChunk: (chunk) => {
-          setStreamingMessage((current) => ({
-            id: current?.id ?? "streaming-assistant",
-            conversation_id: conversationId,
-            role: "assistant",
-            content: `${current?.content ?? ""}${chunk}`,
-            created_at: current?.created_at ?? new Date().toISOString(),
+          setPendingTurn((current) => ({
+            conversationId,
+            optimisticMessages: [message],
+            streamingMessage:
+              current?.conversationId === conversationId ? current.streamingMessage : null,
           }));
         },
+        onChunk: (chunk) => {
+          setPendingTurn((current) => {
+            const streamingMessage =
+              current?.conversationId === conversationId ? current.streamingMessage : null;
+
+            return {
+              conversationId,
+              optimisticMessages:
+                current?.conversationId === conversationId ? current.optimisticMessages : [],
+              streamingMessage: {
+                id: streamingMessage?.id ?? "streaming-assistant",
+                conversation_id: conversationId,
+                role: "assistant",
+                content: `${streamingMessage?.content ?? ""}${chunk}`,
+                created_at: streamingMessage?.created_at ?? new Date().toISOString(),
+              },
+            };
+          });
+        },
         onAssistantMessage: (message) => {
-          setStreamingMessage(null);
-          setOptimisticMessages((messages) => [
-            ...messages.filter((item) => item.role === "user"),
+          setPendingTurn((current) => ({
+            conversationId,
+            optimisticMessages: [
+              ...(current?.conversationId === conversationId
+                ? current.optimisticMessages.filter((item) => item.role === "user")
+                : []),
             message,
-          ]);
+            ],
+            streamingMessage: null,
+          }));
         },
       });
 
@@ -138,16 +169,15 @@ export function ChatApp() {
         queryClient.invalidateQueries({ queryKey: ["conversations"] }),
         queryClient.invalidateQueries({ queryKey: ["messages", conversationId] }),
       ]);
-      setOptimisticMessages([]);
+      setPendingTurn(null);
     } catch (caught) {
-      setStreamingMessage(null);
       if (activeConversationId) {
         await Promise.all([
           queryClient.invalidateQueries({ queryKey: ["conversations"] }),
           queryClient.invalidateQueries({ queryKey: ["messages", activeConversationId] }),
         ]);
       }
-      setOptimisticMessages([]);
+      setPendingTurn(null);
       setError(caught instanceof Error ? caught.message : "Message failed to send.");
     } finally {
       setIsSending(false);
@@ -161,6 +191,7 @@ export function ChatApp() {
         selectedConversationId={selectedConversationId}
         isOpen={isSidebarOpen}
         isLoading={conversationsQuery.isLoading}
+        isBusy={isSending || createConversationMutation.isPending}
         onSelect={(conversationId) => {
           setSelectedConversationId(conversationId);
           setIsSidebarOpen(false);
@@ -211,6 +242,7 @@ function ConversationSidebar({
   selectedConversationId,
   isOpen,
   isLoading,
+  isBusy,
   onSelect,
   onNewConversation,
   onClose,
@@ -219,6 +251,7 @@ function ConversationSidebar({
   selectedConversationId: string | null;
   isOpen: boolean;
   isLoading: boolean;
+  isBusy: boolean;
   onSelect: (conversationId: string) => void;
   onNewConversation: () => void;
   onClose: () => void;
@@ -257,8 +290,9 @@ function ConversationSidebar({
         <div className="p-3">
           <button
             type="button"
-            className="flex h-10 w-full items-center justify-center gap-2 rounded-md border border-white/15 bg-white/8 px-3 text-sm font-medium hover:bg-white/14"
+            className="flex h-10 w-full items-center justify-center gap-2 rounded-md border border-white/15 bg-white/8 px-3 text-sm font-medium hover:bg-white/14 disabled:cursor-not-allowed disabled:opacity-50"
             onClick={onNewConversation}
+            disabled={isBusy}
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
             New chat
@@ -276,12 +310,13 @@ function ConversationSidebar({
             <button
               type="button"
               key={conversation.id}
-              className={`flex h-10 w-full items-center gap-2 rounded-md px-3 text-left text-sm ${
+              className={`flex h-10 w-full items-center gap-2 rounded-md px-3 text-left text-sm disabled:cursor-not-allowed disabled:opacity-50 ${
                 conversation.id === selectedConversationId
                   ? "bg-[#f7f3eb] text-[#25231f]"
                   : "text-[#e8e2d8] hover:bg-white/10"
               }`}
               onClick={() => onSelect(conversation.id)}
+              disabled={isBusy}
             >
               <MessageSquare className="h-4 w-4 shrink-0" aria-hidden="true" />
               <span className="truncate">{conversation.title}</span>

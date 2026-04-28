@@ -181,23 +181,38 @@ struct OpenRouterStreamDelta {
     content: Option<String>,
 }
 
-fn parse_stream_line(line: &str) -> Result<Option<String>, ChatProviderError> {
+enum ParsedStreamLine {
+    Content(String),
+    Done,
+    Ignore,
+}
+
+fn parse_stream_line(line: &str) -> Result<ParsedStreamLine, ChatProviderError> {
     let Some(data) = line.strip_prefix("data:") else {
-        return Ok(None);
+        return Ok(ParsedStreamLine::Ignore);
     };
     let data = data.trim();
-    if data.is_empty() || data == "[DONE]" {
-        return Ok(None);
+    if data.is_empty() {
+        return Ok(ParsedStreamLine::Ignore);
+    }
+    if data == "[DONE]" {
+        return Ok(ParsedStreamLine::Done);
     }
 
     let parsed = serde_json::from_str::<OpenRouterStreamResponse>(data)
         .map_err(|error| ChatProviderError::InvalidResponse(error.to_string()))?;
-    Ok(parsed
-        .choices
-        .into_iter()
-        .next()
-        .and_then(|choice| choice.delta.content)
-        .filter(|content| !content.is_empty()))
+    Ok(
+        match parsed
+            .choices
+            .into_iter()
+            .next()
+            .and_then(|choice| choice.delta.content)
+            .filter(|content| !content.is_empty())
+        {
+            Some(content) => ParsedStreamLine::Content(content),
+            None => ParsedStreamLine::Ignore,
+        },
+    )
 }
 
 fn decode_sse_stream<S>(bytes: S) -> ProviderStream
@@ -206,6 +221,7 @@ where
 {
     let stream = async_stream::try_stream! {
         let mut buffer = Vec::new();
+        let mut saw_done = false;
         tokio::pin!(bytes);
 
         while let Some(next) = bytes.next().await {
@@ -218,22 +234,31 @@ where
                 let line = std::str::from_utf8(&line_bytes)
                     .map_err(|error| ChatProviderError::InvalidResponse(error.to_string()))?;
 
-                if let Some(content) = parse_stream_line(line.trim())? {
-                    yield content;
+                match parse_stream_line(line.trim())? {
+                    ParsedStreamLine::Content(content) if !saw_done => yield content,
+                    ParsedStreamLine::Done => saw_done = true,
+                    ParsedStreamLine::Content(_) | ParsedStreamLine::Ignore => {}
                 }
             }
         }
 
-        if !buffer.is_empty() {
+        if !saw_done && !buffer.is_empty() {
             let remaining = std::str::from_utf8(&buffer)
                 .map_err(|error| ChatProviderError::InvalidResponse(error.to_string()))?
                 .trim();
             if !remaining.is_empty() {
                 match parse_stream_line(remaining)? {
-                    Some(content) => yield content,
-                    None => {}
+                    ParsedStreamLine::Content(content) => yield content,
+                    ParsedStreamLine::Done => saw_done = true,
+                    ParsedStreamLine::Ignore => {}
                 }
             }
+        }
+
+        if !saw_done {
+            Err(ChatProviderError::InvalidResponse(
+                "stream ended before data: [DONE]".to_string(),
+            ))?;
         }
     };
 
@@ -248,9 +273,28 @@ mod tests {
     use super::*;
 
     #[tokio::test]
+    async fn stream_decoder_rejects_content_without_done_sentinel() {
+        let chunks = vec![Ok(Bytes::from_static(
+            br#"data: {"choices":[{"delta":{"content":"partial"}}]}
+
+"#,
+        ))];
+
+        let error = decode_sse_stream(stream::iter(chunks))
+            .try_collect::<Vec<_>>()
+            .await
+            .expect_err("truncated stream should fail");
+
+        assert!(matches!(
+            error,
+            ChatProviderError::InvalidResponse(message) if message.contains("[DONE]")
+        ));
+    }
+
+    #[tokio::test]
     async fn stream_decoder_accepts_utf8_split_across_network_chunks() {
         let line = r#"data: {"choices":[{"delta":{"content":"💡"}}]}"#;
-        let bytes = format!("{line}\n\n").into_bytes();
+        let bytes = format!("{line}\n\ndata: [DONE]\n\n").into_bytes();
         let emoji_start = bytes
             .windows("💡".len())
             .position(|window| window == "💡".as_bytes())

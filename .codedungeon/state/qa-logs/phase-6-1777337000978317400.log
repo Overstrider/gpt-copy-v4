@@ -1,0 +1,19 @@
+$ npm run test -- components/ChatApp.test.tsx -t before
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 test
+> vitest run components/ChatApp.test.tsx -t before
+
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mE:/minima/codedungeon/examples/v4/frontend[39m
+
+ [32m✓[39m components/ChatApp.test.tsx [2m([22m[2m5 tests[22m[2m | [22m[33m4 skipped[39m[2m)[22m[33m 663[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mreloads messages when sending fails before stream events arrive [33m 662[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m1 passed[39m[22m[2m | [22m[33m4 skipped[39m[90m (5)[39m
+[2m   Start at [22m 21:43:17
+[2m   Duration [22m 3.47s[2m (transform 68ms, setup 77ms, collect 380ms, tests 663ms, environment 1.27s, prepare 784ms)[22m
+
+[stderr]
+
