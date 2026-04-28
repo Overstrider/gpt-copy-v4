@@ -124,9 +124,42 @@ describe("ChatApp", () => {
 
   it("keeps delivered stream output visible when post-send refresh fails", async () => {
     const user = userEvent.setup();
+    let resolveSecondStream: (() => void) | undefined;
+    const secondStreamFinished = new Promise<void>((resolve) => {
+      resolveSecondStream = resolve;
+    });
+
     vi.mocked(api.listMessages)
       .mockResolvedValueOnce([assistantMessage])
       .mockRejectedValueOnce(new Error("Refresh failed"));
+    vi.mocked(api.sendMessageStream)
+      .mockImplementationOnce(async (_conversationId, content, handlers) => {
+        handlers.onUserMessage?.({
+          id: "user-first-refresh-fail",
+          conversation_id: "c1",
+          role: "user",
+          content,
+          created_at: now,
+        });
+        handlers.onAssistantMessage?.({
+          id: "assistant-first-refresh-fail",
+          conversation_id: "c1",
+          role: "assistant",
+          content: "Hi **there**",
+          created_at: now,
+        });
+        handlers.onDone?.();
+      })
+      .mockImplementationOnce(async (_conversationId, content, handlers) => {
+        handlers.onUserMessage?.({
+          id: "user-second",
+          conversation_id: "c1",
+          role: "user",
+          content,
+          created_at: now,
+        });
+        await secondStreamFinished;
+      });
 
     renderChat();
 
@@ -137,6 +170,16 @@ describe("ChatApp", () => {
     expect(await screen.findByText("Hello model")).toBeInTheDocument();
     expect(await screen.findByText("there")).toBeInTheDocument();
     expect(screen.queryByText("Refresh failed")).not.toBeInTheDocument();
+
+    await user.type(screen.getByRole("textbox", { name: /^message$/i }), "Second message");
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    expect(await screen.findByText("Second message")).toBeInTheDocument();
+    expect(screen.getByText("Hello model")).toBeInTheDocument();
+    expect(screen.getByText("there")).toBeInTheDocument();
+
+    resolveSecondStream?.();
+    await waitFor(() => expect(screen.queryByText("Thinking")).not.toBeInTheDocument());
   });
 
   it("shows a user-visible error when sending fails", async () => {

@@ -108,6 +108,7 @@ export function ChatApp() {
     setPendingTurn(null);
 
     let activeConversationId = selectedConversationId;
+    let deliveredMessages: Message[] = [];
 
     try {
       if (!activeConversationId) {
@@ -125,6 +126,7 @@ export function ChatApp() {
       });
       await sendMessageStream(conversationId, content, {
         onUserMessage: (message) => {
+          deliveredMessages = [message];
           setPendingTurn((current) => ({
             conversationId,
             optimisticMessages: [message],
@@ -152,6 +154,10 @@ export function ChatApp() {
           });
         },
         onAssistantMessage: (message) => {
+          deliveredMessages = [
+            ...deliveredMessages.filter((item) => item.role === "user"),
+            message,
+          ];
           setPendingTurn((current) => ({
             conversationId,
             optimisticMessages: [
@@ -177,7 +183,13 @@ export function ChatApp() {
         });
         setPendingTurn(null);
       } catch {
-        // Keep the delivered stream visible if only post-send cache refresh fails.
+        if (deliveredMessages.length > 0) {
+          queryClient.setQueryData<Message[]>(
+            ["messages", conversationId],
+            (current = []) => mergeMessagesById(current, deliveredMessages),
+          );
+        }
+        setPendingTurn(null);
       }
     } catch (caught) {
       setPendingTurn(null);
@@ -254,6 +266,20 @@ export function ChatApp() {
       </section>
     </main>
   );
+}
+
+function mergeMessagesById(current: Message[], next: Message[]) {
+  const seen = new Set(current.map((message) => message.id));
+  return [
+    ...current,
+    ...next.filter((message) => {
+      if (seen.has(message.id)) {
+        return false;
+      }
+      seen.add(message.id);
+      return true;
+    }),
+  ];
 }
 
 function ConversationSidebar({
