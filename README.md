@@ -47,6 +47,7 @@ cargo run
 ```
 
 The backend listens on `http://127.0.0.1:8080` by default.
+It is intentionally local-only: startup rejects non-loopback `BIND_ADDR` values because the API stores conversations and proxies OpenRouter with a server-side key.
 
 Backend checks:
 
@@ -110,6 +111,6 @@ Errors use:
 ## Troubleshooting
 
 - `OPENROUTER_API_KEY is not configured`: add a real key to local `.env`; never commit it.
-- SQLite file errors: ensure `backend/` exists and `DATABASE_URL` points to a writable `sqlite://` path.
+- SQLite file errors: run backend commands from `backend/` or point `DATABASE_URL` to a writable `sqlite://` path relative to the backend process cwd.
 - CORS errors: keep `FRONTEND_ORIGIN=http://localhost:3000` for local frontend dev.
 - Playwright browser missing: run `npx playwright install chromium` from `frontend/`.

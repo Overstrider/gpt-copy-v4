@@ -44,6 +44,7 @@ function renderChat() {
 
 describe("ChatApp", () => {
   beforeEach(() => {
+    vi.clearAllMocks();
     vi.mocked(api.listConversations).mockResolvedValue([conversation]);
     vi.mocked(api.listMessages).mockResolvedValue([assistantMessage]);
     vi.mocked(api.createConversation).mockResolvedValue(conversation);
@@ -124,5 +125,45 @@ describe("ChatApp", () => {
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
     expect(await screen.findByText("Provider unavailable")).toBeInTheDocument();
+  });
+
+  it("removes partial assistant output and reloads persisted messages after a mid-stream error", async () => {
+    const user = userEvent.setup();
+    vi.mocked(api.listMessages)
+      .mockResolvedValueOnce([assistantMessage])
+      .mockResolvedValue([
+        assistantMessage,
+        {
+          id: "user-1",
+          conversation_id: "c1",
+          role: "user",
+          content: "Please fail after chunk",
+          created_at: now,
+        },
+      ]);
+    vi.mocked(api.sendMessageStream).mockImplementationOnce(
+      async (_conversationId, content, handlers) => {
+        handlers.onUserMessage?.({
+          id: "user-1",
+          conversation_id: "c1",
+          role: "user",
+          content,
+          created_at: now,
+        });
+        handlers.onChunk?.("partial answer");
+        throw new Error("Provider failed mid-stream");
+      },
+    );
+
+    renderChat();
+
+    await screen.findByRole("button", { name: /planning/i });
+    await user.type(screen.getByRole("textbox", { name: /^message$/i }), "Please fail after chunk");
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    expect(await screen.findByText("Provider failed mid-stream")).toBeInTheDocument();
+    await waitFor(() => expect(api.listMessages).toHaveBeenCalledTimes(2));
+    expect(screen.getByText("Please fail after chunk")).toBeInTheDocument();
+    expect(screen.queryByText("partial answer")).not.toBeInTheDocument();
   });
 });

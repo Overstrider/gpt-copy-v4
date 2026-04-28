@@ -8,6 +8,7 @@ const corsHeaders = {
 
 test("sends a message through the chat UI", async ({ page }) => {
   let hasConversation = false;
+  let streamRequestOrigin: string | null = null;
   const messages: unknown[] = [];
 
   await page.route("**/api/**", async (route) => {
@@ -69,6 +70,7 @@ test("sends a message through the chat UI", async ({ page }) => {
       url.pathname === "/api/conversations/c1/messages/stream" &&
       request.method() === "POST"
     ) {
+      streamRequestOrigin = url.origin;
       const userMessage = {
         id: "u1",
         conversation_id: "c1",
@@ -122,4 +124,5 @@ test("sends a message through the chat UI", async ({ page }) => {
 
   await expect(page.getByText("Hello from Playwright")).toBeVisible();
   await expect(page.getByText("passed")).toBeVisible();
+  expect(streamRequestOrigin).toBe("http://127.0.0.1:3000");
 });

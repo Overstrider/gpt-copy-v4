@@ -40,6 +40,12 @@ impl AppState {
     }
 }
 
+struct PreparedUserTurn {
+    conversation: db::ConversationRecord,
+    user_message: db::MessageRecord,
+    provider_messages: Vec<ProviderMessage>,
+}
+
 pub fn create_app(state: AppState, frontend_origin: &str) -> Result<Router, AppError> {
     let origin = frontend_origin
         .parse::<HeaderValue>()
@@ -93,8 +99,8 @@ async fn create_conversation(
     payload: Result<Json<CreateConversationRequest>, JsonRejection>,
 ) -> Result<impl IntoResponse, AppError> {
     let Json(payload) = payload.map_err(AppError::invalid_json)?;
-    let title = validate_title(payload.title)?;
-    let conversation = db::create_conversation(&state.pool, &title).await?;
+    let (title, title_generated) = validate_title(payload.title)?;
+    let conversation = db::create_conversation(&state.pool, &title, title_generated).await?;
     Ok((
         StatusCode::CREATED,
         Json(CreateConversationResponse {
@@ -123,25 +129,9 @@ async fn send_message(
 ) -> Result<Json<SendMessageResponse>, AppError> {
     let Json(payload) = payload.map_err(AppError::invalid_json)?;
     let content = validate_message(payload.content)?;
-    let conversation = ensure_conversation(&state, &conversation_id).await?;
-    let existing_messages = db::list_messages(&state.pool, &conversation_id).await?;
-    let conversation =
-        db::maybe_set_conversation_title(&state.pool, &conversation, &content).await?;
-    let user_message = db::create_message(&state.pool, &conversation_id, "user", &content).await?;
+    let turn = prepare_user_turn(&state, &conversation_id, &content).await?;
 
-    let mut provider_messages = existing_messages
-        .into_iter()
-        .map(|message| ProviderMessage {
-            role: message.role,
-            content: message.content,
-        })
-        .collect::<Vec<_>>();
-    provider_messages.push(ProviderMessage {
-        role: "user".to_string(),
-        content: content.clone(),
-    });
-
-    let assistant_content = state.chat_provider.complete(provider_messages).await?;
+    let assistant_content = state.chat_provider.complete(turn.provider_messages).await?;
     let assistant_message = db::create_message(
         &state.pool,
         &conversation_id,
@@ -151,8 +141,8 @@ async fn send_message(
     .await?;
 
     Ok(Json(SendMessageResponse {
-        conversation: conversation.into(),
-        user_message: user_message.into(),
+        conversation: turn.conversation.into(),
+        user_message: turn.user_message.into(),
         assistant_message: assistant_message.into(),
     }))
 }
@@ -164,27 +154,11 @@ async fn stream_message(
 ) -> Result<Response, AppError> {
     let Json(payload) = payload.map_err(AppError::invalid_json)?;
     let content = validate_message(payload.content)?;
-    let conversation = ensure_conversation(&state, &conversation_id).await?;
-    let existing_messages = db::list_messages(&state.pool, &conversation_id).await?;
-    db::maybe_set_conversation_title(&state.pool, &conversation, &content).await?;
-    let user_message = db::create_message(&state.pool, &conversation_id, "user", &content).await?;
-
-    let mut provider_messages = existing_messages
-        .into_iter()
-        .map(|message| ProviderMessage {
-            role: message.role,
-            content: message.content,
-        })
-        .collect::<Vec<_>>();
-    provider_messages.push(ProviderMessage {
-        role: "user".to_string(),
-        content,
-    });
-
-    let provider_stream = state.chat_provider.stream(provider_messages).await?;
+    let turn = prepare_user_turn(&state, &conversation_id, &content).await?;
+    let provider_stream = state.chat_provider.stream(turn.provider_messages).await?;
     let pool = state.pool.clone();
     let user_event = StreamEvent::UserMessage {
-        message: user_message.into(),
+        message: turn.user_message.into(),
     };
 
     let stream = async_stream::stream! {
@@ -240,9 +214,39 @@ async fn ensure_conversation(
         .ok_or_else(|| AppError::not_found("conversation not found"))
 }
 
-fn validate_title(title: Option<String>) -> Result<String, AppError> {
+async fn prepare_user_turn(
+    state: &AppState,
+    conversation_id: &str,
+    content: &str,
+) -> Result<PreparedUserTurn, AppError> {
+    let conversation = ensure_conversation(state, conversation_id).await?;
+    let existing_messages = db::list_messages(&state.pool, conversation_id).await?;
+    let conversation =
+        db::maybe_set_conversation_title(&state.pool, &conversation, content).await?;
+    let user_message = db::create_message(&state.pool, conversation_id, "user", content).await?;
+
+    let mut provider_messages = existing_messages
+        .into_iter()
+        .map(|message| ProviderMessage {
+            role: message.role,
+            content: message.content,
+        })
+        .collect::<Vec<_>>();
+    provider_messages.push(ProviderMessage {
+        role: "user".to_string(),
+        content: content.to_string(),
+    });
+
+    Ok(PreparedUserTurn {
+        conversation,
+        user_message,
+        provider_messages,
+    })
+}
+
+fn validate_title(title: Option<String>) -> Result<(String, bool), AppError> {
     let Some(title) = title else {
-        return Ok("New chat".to_string());
+        return Ok(("New chat".to_string(), true));
     };
     let title = title.trim();
     if title.is_empty() {
@@ -251,7 +255,7 @@ fn validate_title(title: Option<String>) -> Result<String, AppError> {
     if title.chars().count() > 120 {
         return Err(AppError::validation("title cannot exceed 120 characters"));
     }
-    Ok(title.to_string())
+    Ok((title.to_string(), false))
 }
 
 fn validate_message(content: String) -> Result<String, AppError> {

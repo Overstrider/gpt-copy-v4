@@ -101,17 +101,21 @@ export function ChatApp() {
     setOptimisticMessages([]);
     setStreamingMessage(null);
 
+    let activeConversationId = selectedConversationId;
+    let receivedUserMessage = false;
+
     try {
-      let conversationId = selectedConversationId;
-      if (!conversationId) {
+      if (!activeConversationId) {
         const conversation = await createConversation(undefined);
-        conversationId = conversation.id;
+        activeConversationId = conversation.id;
         setSelectedConversationId(conversation.id);
         await queryClient.invalidateQueries({ queryKey: ["conversations"] });
       }
 
+      const conversationId = activeConversationId;
       await sendMessageStream(conversationId, content, {
         onUserMessage: (message) => {
+          receivedUserMessage = true;
           setOptimisticMessages([message]);
         },
         onChunk: (chunk) => {
@@ -138,6 +142,14 @@ export function ChatApp() {
       ]);
       setOptimisticMessages([]);
     } catch (caught) {
+      setStreamingMessage(null);
+      if (activeConversationId && receivedUserMessage) {
+        await Promise.all([
+          queryClient.invalidateQueries({ queryKey: ["conversations"] }),
+          queryClient.invalidateQueries({ queryKey: ["messages", activeConversationId] }),
+        ]);
+      }
+      setOptimisticMessages([]);
       setError(caught instanceof Error ? caught.message : "Message failed to send.");
     } finally {
       setIsSending(false);

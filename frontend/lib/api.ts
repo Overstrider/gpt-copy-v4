@@ -56,7 +56,7 @@ export async function createConversation(title?: string): Promise<Conversation> 
   const json = await requestJson(`${API_BASE_URL}/api/conversations`, {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(title ? { title } : {}),
+    body: JSON.stringify(title === undefined ? {} : { title }),
   });
   return createConversationSchema.parse(json).conversation;
 }

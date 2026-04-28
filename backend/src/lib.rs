@@ -228,6 +228,52 @@ mod tests {
     }
 
     #[tokio::test]
+    async fn explicit_new_chat_title_is_not_replaced_by_first_message() {
+        let app = test_app().await;
+        let created = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/api/conversations")
+                    .header(header::CONTENT_TYPE, "application/json")
+                    .body(Body::from(r#"{ "title": "New chat" }"#))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        let created_json = read_json(created).await;
+        let conversation_id = created_json["conversation"]["id"].as_str().unwrap();
+
+        let sent = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri(format!("/api/conversations/{conversation_id}/messages"))
+                    .header(header::CONTENT_TYPE, "application/json")
+                    .body(Body::from(r#"{ "content": "Rename me" }"#))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(sent.status(), StatusCode::OK);
+
+        let listed = app
+            .oneshot(
+                Request::builder()
+                    .uri("/api/conversations")
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        let listed_json = read_json(listed).await;
+        assert_eq!(listed_json["conversations"][0]["title"], "New chat");
+    }
+
+    #[tokio::test]
     async fn repository_returns_persisted_messages() {
         let pool = SqlitePoolOptions::new()
             .max_connections(1)
@@ -235,7 +281,7 @@ mod tests {
             .await
             .unwrap();
         init_db(&pool).await.unwrap();
-        let conversation = crate::db::create_conversation(&pool, "Repository")
+        let conversation = crate::db::create_conversation(&pool, "Repository", false)
             .await
             .unwrap();
         crate::db::create_message(&pool, &conversation.id, "user", "Hello")

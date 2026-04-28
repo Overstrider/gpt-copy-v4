@@ -1,6 +1,7 @@
 use std::{pin::Pin, time::Duration};
 
 use async_trait::async_trait;
+use bytes::Bytes;
 use futures_util::{Stream, StreamExt};
 use reqwest::{Client, StatusCode};
 use serde::{Deserialize, Serialize};
@@ -135,37 +136,11 @@ impl ChatProvider for OpenRouterClient {
                 stream: true,
             })
             .await?;
-        let mut bytes = response.bytes_stream();
+        let bytes = response
+            .bytes_stream()
+            .map(|next| next.map_err(|error| ChatProviderError::Request(error.to_string())));
 
-        let stream = async_stream::try_stream! {
-            let mut buffer = String::new();
-
-            while let Some(next) = bytes.next().await {
-                let chunk = next.map_err(|error| ChatProviderError::Request(error.to_string()))?;
-                let chunk = std::str::from_utf8(&chunk)
-                    .map_err(|error| ChatProviderError::InvalidResponse(error.to_string()))?;
-                buffer.push_str(chunk);
-
-                while let Some(index) = buffer.find('\n') {
-                    let line = buffer[..index].trim().to_string();
-                    buffer = buffer[index + 1..].to_string();
-
-                    if let Some(content) = parse_stream_line(&line)? {
-                        yield content;
-                    }
-                }
-            }
-
-            let remaining = buffer.trim();
-            if !remaining.is_empty() {
-                match parse_stream_line(remaining)? {
-                    Some(content) => yield content,
-                    None => {}
-                }
-            }
-        };
-
-        Ok(Box::pin(stream))
+        Ok(decode_sse_stream(bytes))
     }
 }
 
@@ -223,4 +198,74 @@ fn parse_stream_line(line: &str) -> Result<Option<String>, ChatProviderError> {
         .next()
         .and_then(|choice| choice.delta.content)
         .filter(|content| !content.is_empty()))
+}
+
+fn decode_sse_stream<S>(bytes: S) -> ProviderStream
+where
+    S: Stream<Item = Result<Bytes, ChatProviderError>> + Send + 'static,
+{
+    let stream = async_stream::try_stream! {
+        let mut buffer = Vec::new();
+        tokio::pin!(bytes);
+
+        while let Some(next) = bytes.next().await {
+            let chunk = next?;
+            buffer.extend_from_slice(&chunk);
+
+            while let Some(index) = buffer.iter().position(|byte| *byte == b'\n') {
+                let mut line_bytes = buffer.drain(..=index).collect::<Vec<_>>();
+                line_bytes.pop();
+                let line = std::str::from_utf8(&line_bytes)
+                    .map_err(|error| ChatProviderError::InvalidResponse(error.to_string()))?;
+
+                if let Some(content) = parse_stream_line(line.trim())? {
+                    yield content;
+                }
+            }
+        }
+
+        if !buffer.is_empty() {
+            let remaining = std::str::from_utf8(&buffer)
+                .map_err(|error| ChatProviderError::InvalidResponse(error.to_string()))?
+                .trim();
+            if !remaining.is_empty() {
+                match parse_stream_line(remaining)? {
+                    Some(content) => yield content,
+                    None => {}
+                }
+            }
+        }
+    };
+
+    Box::pin(stream)
+}
+
+#[cfg(test)]
+mod tests {
+    use bytes::Bytes;
+    use futures_util::{TryStreamExt, stream};
+
+    use super::*;
+
+    #[tokio::test]
+    async fn stream_decoder_accepts_utf8_split_across_network_chunks() {
+        let line = r#"data: {"choices":[{"delta":{"content":"💡"}}]}"#;
+        let bytes = format!("{line}\n\n").into_bytes();
+        let emoji_start = bytes
+            .windows("💡".len())
+            .position(|window| window == "💡".as_bytes())
+            .expect("emoji bytes");
+
+        let chunks = vec![
+            Ok(Bytes::copy_from_slice(&bytes[..emoji_start + 1])),
+            Ok(Bytes::copy_from_slice(&bytes[emoji_start + 1..])),
+        ];
+
+        let decoded = decode_sse_stream(stream::iter(chunks))
+            .try_collect::<Vec<_>>()
+            .await
+            .expect("valid split utf-8 stream");
+
+        assert_eq!(decoded, vec!["💡".to_string()]);
+    }
 }
