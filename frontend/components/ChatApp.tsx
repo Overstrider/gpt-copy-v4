@@ -165,16 +165,20 @@ export function ChatApp() {
         },
       });
 
-      await queryClient.invalidateQueries({ queryKey: ["conversations"] });
-      await queryClient.invalidateQueries({
-        queryKey: ["messages", conversationId],
-        refetchType: "none",
-      });
-      await queryClient.fetchQuery({
-        queryKey: ["messages", conversationId],
-        queryFn: () => listMessages(conversationId),
-      });
-      setPendingTurn(null);
+      try {
+        await queryClient.invalidateQueries({ queryKey: ["conversations"] });
+        await queryClient.invalidateQueries({
+          queryKey: ["messages", conversationId],
+          refetchType: "none",
+        });
+        await queryClient.fetchQuery({
+          queryKey: ["messages", conversationId],
+          queryFn: () => listMessages(conversationId),
+        });
+        setPendingTurn(null);
+      } catch {
+        // Keep the delivered stream visible if only post-send cache refresh fails.
+      }
     } catch (caught) {
       setPendingTurn(null);
       setError(caught instanceof Error ? caught.message : "Message failed to send.");

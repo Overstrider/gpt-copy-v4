@@ -122,6 +122,23 @@ describe("ChatApp", () => {
     expect(await screen.findByText("there")).toBeInTheDocument();
   });
 
+  it("keeps delivered stream output visible when post-send refresh fails", async () => {
+    const user = userEvent.setup();
+    vi.mocked(api.listMessages)
+      .mockResolvedValueOnce([assistantMessage])
+      .mockRejectedValueOnce(new Error("Refresh failed"));
+
+    renderChat();
+
+    await screen.findByRole("button", { name: /planning/i });
+    await user.type(screen.getByRole("textbox", { name: /^message$/i }), "Hello model");
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    expect(await screen.findByText("Hello model")).toBeInTheDocument();
+    expect(await screen.findByText("there")).toBeInTheDocument();
+    expect(screen.queryByText("Refresh failed")).not.toBeInTheDocument();
+  });
+
   it("shows a user-visible error when sending fails", async () => {
     vi.mocked(api.sendMessageStream).mockRejectedValueOnce(new Error("Provider unavailable"));
     const user = userEvent.setup();
