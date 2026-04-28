@@ -30,7 +30,7 @@ PROJECT_RULES_READ: yes
 - `POST /api/conversations` creates a conversation with optional validated title.
 - `GET /api/conversations/:id/messages` loads a transcript.
 - `POST /api/conversations/:id/messages` validates user content, persists user and assistant messages, and returns both.
-- `POST /api/conversations/:id/messages/stream` validates user content, persists the user message, proxies OpenRouter streaming, persists the final assistant content, and emits newline-delimited JSON events.
+- `POST /api/conversations/:id/messages/stream` validates user content, prepares provider context, acquires the OpenRouter stream, then persists/emits the user message; it persists a final assistant message only after non-empty assistant content streams successfully.
 
 ## OpenRouter Boundary
 

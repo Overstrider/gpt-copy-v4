@@ -186,6 +186,14 @@ async fn stream_message(
             }
         }
 
+        if assistant_content.trim().is_empty() {
+            yield ndjson(StreamEvent::Error {
+                code: "provider_error".to_string(),
+                message: "OpenRouter response was invalid".to_string(),
+            });
+            return;
+        }
+
         match db::create_message(&pool, &conversation_id, "assistant", &assistant_content).await {
             Ok(message) => {
                 yield ndjson(StreamEvent::AssistantMessage { message: message.into() });
