@@ -40,9 +40,8 @@ impl AppState {
     }
 }
 
-struct PreparedUserTurn {
+struct PreparedProviderTurn {
     conversation: db::ConversationRecord,
-    user_message: db::MessageRecord,
     provider_messages: Vec<ProviderMessage>,
 }
 
@@ -129,9 +128,11 @@ async fn send_message(
 ) -> Result<Json<SendMessageResponse>, AppError> {
     let Json(payload) = payload.map_err(AppError::invalid_json)?;
     let content = validate_message(payload.content)?;
-    let turn = prepare_user_turn(&state, &conversation_id, &content).await?;
+    let turn = prepare_provider_turn(&state, &conversation_id, &content).await?;
 
     let assistant_content = state.chat_provider.complete(turn.provider_messages).await?;
+    let (conversation, user_message) =
+        persist_user_turn(&state, &conversation_id, &turn.conversation, &content).await?;
     let assistant_message = db::create_message(
         &state.pool,
         &conversation_id,
@@ -141,8 +142,8 @@ async fn send_message(
     .await?;
 
     Ok(Json(SendMessageResponse {
-        conversation: turn.conversation.into(),
-        user_message: turn.user_message.into(),
+        conversation: conversation.into(),
+        user_message: user_message.into(),
         assistant_message: assistant_message.into(),
     }))
 }
@@ -154,11 +155,13 @@ async fn stream_message(
 ) -> Result<Response, AppError> {
     let Json(payload) = payload.map_err(AppError::invalid_json)?;
     let content = validate_message(payload.content)?;
-    let turn = prepare_user_turn(&state, &conversation_id, &content).await?;
+    let turn = prepare_provider_turn(&state, &conversation_id, &content).await?;
     let provider_stream = state.chat_provider.stream(turn.provider_messages).await?;
+    let (_conversation, user_message) =
+        persist_user_turn(&state, &conversation_id, &turn.conversation, &content).await?;
     let pool = state.pool.clone();
     let user_event = StreamEvent::UserMessage {
-        message: turn.user_message.into(),
+        message: user_message.into(),
     };
 
     let stream = async_stream::stream! {
@@ -214,16 +217,13 @@ async fn ensure_conversation(
         .ok_or_else(|| AppError::not_found("conversation not found"))
 }
 
-async fn prepare_user_turn(
+async fn prepare_provider_turn(
     state: &AppState,
     conversation_id: &str,
     content: &str,
-) -> Result<PreparedUserTurn, AppError> {
+) -> Result<PreparedProviderTurn, AppError> {
     let conversation = ensure_conversation(state, conversation_id).await?;
     let existing_messages = db::list_messages(&state.pool, conversation_id).await?;
-    let conversation =
-        db::maybe_set_conversation_title(&state.pool, &conversation, content).await?;
-    let user_message = db::create_message(&state.pool, conversation_id, "user", content).await?;
 
     let mut provider_messages = existing_messages
         .into_iter()
@@ -237,11 +237,21 @@ async fn prepare_user_turn(
         content: content.to_string(),
     });
 
-    Ok(PreparedUserTurn {
+    Ok(PreparedProviderTurn {
         conversation,
-        user_message,
         provider_messages,
     })
+}
+
+async fn persist_user_turn(
+    state: &AppState,
+    conversation_id: &str,
+    conversation: &db::ConversationRecord,
+    content: &str,
+) -> Result<(db::ConversationRecord, db::MessageRecord), AppError> {
+    let conversation = db::maybe_set_conversation_title(&state.pool, conversation, content).await?;
+    let user_message = db::create_message(&state.pool, conversation_id, "user", content).await?;
+    Ok((conversation, user_message))
 }
 
 fn validate_title(title: Option<String>) -> Result<(String, bool), AppError> {

@@ -33,6 +33,9 @@ mod tests {
         response: String,
     }
 
+    #[derive(Clone)]
+    struct FailingStreamProvider;
+
     #[async_trait]
     impl ChatProvider for MockProvider {
         async fn complete(
@@ -51,19 +54,38 @@ mod tests {
         }
     }
 
+    #[async_trait]
+    impl ChatProvider for FailingStreamProvider {
+        async fn complete(
+            &self,
+            _messages: Vec<ProviderMessage>,
+        ) -> Result<String, ChatProviderError> {
+            Ok("unused".to_string())
+        }
+
+        async fn stream(
+            &self,
+            _messages: Vec<ProviderMessage>,
+        ) -> Result<ProviderStream, ChatProviderError> {
+            Err(ChatProviderError::MissingApiKey)
+        }
+    }
+
     async fn test_app() -> Router {
+        test_app_with_provider(Arc::new(MockProvider {
+            response: "mock assistant".to_string(),
+        }))
+        .await
+    }
+
+    async fn test_app_with_provider(provider: Arc<dyn ChatProvider>) -> Router {
         let pool = SqlitePoolOptions::new()
             .max_connections(1)
             .connect("sqlite::memory:")
             .await
             .expect("connect in-memory sqlite");
         init_db(&pool).await.expect("initialize db");
-        let state = AppState::new(
-            pool,
-            Arc::new(MockProvider {
-                response: "mock assistant".to_string(),
-            }),
-        );
+        let state = AppState::new(pool, provider);
         create_app(state, "http://localhost:3000").expect("create app")
     }
 
@@ -225,6 +247,54 @@ mod tests {
             .unwrap();
         let loaded_json = read_json(loaded).await;
         assert_eq!(loaded_json["messages"][1]["content"], "mock stream");
+    }
+
+    #[tokio::test]
+    async fn stream_setup_failure_does_not_persist_user_message() {
+        let app = test_app_with_provider(Arc::new(FailingStreamProvider)).await;
+        let created = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri("/api/conversations")
+                    .header(header::CONTENT_TYPE, "application/json")
+                    .body(Body::from("{}"))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        let created_json = read_json(created).await;
+        let conversation_id = created_json["conversation"]["id"].as_str().unwrap();
+
+        let streamed = app
+            .clone()
+            .oneshot(
+                Request::builder()
+                    .method("POST")
+                    .uri(format!(
+                        "/api/conversations/{conversation_id}/messages/stream"
+                    ))
+                    .header(header::CONTENT_TYPE, "application/json")
+                    .body(Body::from(r#"{ "content": "Do not persist yet" }"#))
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+
+        assert_eq!(streamed.status(), StatusCode::BAD_GATEWAY);
+
+        let loaded = app
+            .oneshot(
+                Request::builder()
+                    .uri(format!("/api/conversations/{conversation_id}/messages"))
+                    .body(Body::empty())
+                    .unwrap(),
+            )
+            .await
+            .unwrap();
+        let loaded_json = read_json(loaded).await;
+        assert_eq!(loaded_json["messages"].as_array().unwrap().len(), 0);
     }
 
     #[tokio::test]

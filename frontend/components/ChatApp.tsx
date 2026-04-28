@@ -102,7 +102,6 @@ export function ChatApp() {
     setStreamingMessage(null);
 
     let activeConversationId = selectedConversationId;
-    let receivedUserMessage = false;
 
     try {
       if (!activeConversationId) {
@@ -115,7 +114,6 @@ export function ChatApp() {
       const conversationId = activeConversationId;
       await sendMessageStream(conversationId, content, {
         onUserMessage: (message) => {
-          receivedUserMessage = true;
           setOptimisticMessages([message]);
         },
         onChunk: (chunk) => {
@@ -143,7 +141,7 @@ export function ChatApp() {
       setOptimisticMessages([]);
     } catch (caught) {
       setStreamingMessage(null);
-      if (activeConversationId && receivedUserMessage) {
+      if (activeConversationId) {
         await Promise.all([
           queryClient.invalidateQueries({ queryKey: ["conversations"] }),
           queryClient.invalidateQueries({ queryKey: ["messages", activeConversationId] }),

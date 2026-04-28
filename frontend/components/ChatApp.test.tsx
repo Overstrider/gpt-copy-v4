@@ -166,4 +166,33 @@ describe("ChatApp", () => {
     expect(screen.getByText("Please fail after chunk")).toBeInTheDocument();
     expect(screen.queryByText("partial answer")).not.toBeInTheDocument();
   });
+
+  it("reloads messages when sending fails before stream events arrive", async () => {
+    const user = userEvent.setup();
+    vi.mocked(api.listMessages)
+      .mockResolvedValueOnce([assistantMessage])
+      .mockResolvedValue([
+        assistantMessage,
+        {
+          id: "user-early-fail",
+          conversation_id: "c1",
+          role: "user",
+          content: "Persisted before event",
+          created_at: now,
+        },
+      ]);
+    vi.mocked(api.sendMessageStream).mockRejectedValueOnce(
+      new Error("OpenRouter request failed"),
+    );
+
+    renderChat();
+
+    await screen.findByRole("button", { name: /planning/i });
+    await user.type(screen.getByRole("textbox", { name: /^message$/i }), "Persisted before event");
+    await user.click(screen.getByRole("button", { name: /send message/i }));
+
+    expect(await screen.findByText("OpenRouter request failed")).toBeInTheDocument();
+    await waitFor(() => expect(api.listMessages).toHaveBeenCalledTimes(2));
+    expect(screen.getByText("Persisted before event")).toBeInTheDocument();
+  });
 });
