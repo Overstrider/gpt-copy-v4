@@ -1,0 +1,34 @@
+$ cargo test
+
+[stdout]
+running 12 tests
+test config::tests::default_database_url_matches_documented_backend_cwd ... ok
+test config::tests::non_loopback_bind_is_rejected_by_default ... ok
+test openrouter::tests::stream_decoder_accepts_utf8_split_across_network_chunks ... ok
+test openrouter::tests::stream_decoder_rejects_content_without_done_sentinel ... ok
+test tests::validation_errors_are_structured ... ok
+test tests::repository_returns_persisted_messages ... ok
+test tests::stream_setup_failure_does_not_persist_user_message ... ok
+test tests::empty_provider_stream_does_not_persist_blank_assistant_message ... ok
+test tests::conversations_and_messages_persist ... ok
+test tests::explicit_new_chat_title_is_not_replaced_by_first_message ... ok
+test tests::mocked_provider_stream_persists_assistant_message ... ok
+test tests::health_returns_ok ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+[stderr]
+Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+     Running unittests src\lib.rs (target\debug\deps\gpt_copy_v4_backend-ddcdaa7b66e4b073.exe)
+     Running unittests src\main.rs (target\debug\deps\gpt_copy_v4_backend-0553ae58a1f349c4.exe)
+   Doc-tests gpt_copy_v4_backend

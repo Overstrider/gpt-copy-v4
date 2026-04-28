@@ -1,0 +1,45 @@
+$ npm run test:e2e
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 test:e2e
+> playwright test
+
+
+Running 1 test using 1 worker
+
+  x  1 [chromium] › e2e\chat.spec.ts:9:1 › sends a message through the chat UI (5.8s)
+
+
+  1) [chromium] › e2e\chat.spec.ts:9:1 › sends a message through the chat UI ───────────────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('Hello from Playwright')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 5000ms[22m
+    [2m  - waiting for getByText('Hello from Playwright')[22m
+
+
+      116 |   await page.getByRole("button", { name: "Send message" }).click();
+      117 |
+    > 118 |   await expect(page.getByText("Hello from Playwright")).toBeVisible();
+          |                                                         ^
+      119 |   await expect(page.getByText("passed")).toBeVisible();
+      120 | });
+      121 |
+        at E:\minima\codedungeon\examples\v4\frontend\e2e\chat.spec.ts:118:57
+
+    Error Context: test-results\chat-sends-a-message-through-the-chat-UI-chromium\error-context.md
+
+  1 failed
+    [chromium] › e2e\chat.spec.ts:9:1 › sends a message through the chat UI ────────────────────────
+
+[stderr]
+
+
+[error]
+exit status 1

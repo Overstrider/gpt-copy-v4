@@ -1,0 +1,27 @@
+$ C:\Users\loldi\.cargo\bin\cargo.exe clippy --all-targets --all-features -- -D warnings
+
+[stdout]
+
+
+[stderr]
+Checking gpt-copy-v4-backend v0.1.0 (E:\minima\codedungeon\examples\v4\backend)
+error: let chains are only allowed in Rust 2024 or later
+   --> src\openrouter.rs:140:22
+    |
+140 |           let stream = async_stream::try_stream! {
+    |  ______________________^
+141 | |             let mut buffer = String::new();
+142 | |
+143 | |             while let Some(next) = bytes.next().await {
+...   |
+165 | |         };
+    | |_________^
+    |
+    = note: this error originates in the macro `$crate::__private::try_stream_inner` which comes from the expansion of the macro `async_stream::try_stream` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: could not compile `gpt-copy-v4-backend` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+error: could not compile `gpt-copy-v4-backend` (lib test) due to 1 previous error
+
+[error]
+exit status 101

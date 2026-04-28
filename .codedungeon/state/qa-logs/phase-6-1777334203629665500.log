@@ -1,0 +1,8 @@
+$ C:\Users\loldi\.cargo\bin\cargo.exe clippy --all-targets --all-features -- -D warnings
+
+[stdout]
+
+
+[stderr]
+Checking gpt-copy-v4-backend v0.1.0 (E:\minima\codedungeon\examples\v4\backend)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.08s

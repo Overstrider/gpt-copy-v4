@@ -1,0 +1,8 @@
+$ npm run typecheck
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 typecheck
+> tsc --noEmit
+
+[stderr]
+

@@ -1,0 +1,8 @@
+$ cargo build
+
+[stdout]
+
+
+[stderr]
+Compiling gpt-copy-v4-backend v0.1.0 (E:\minima\codedungeon\examples\v4\backend)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.93s

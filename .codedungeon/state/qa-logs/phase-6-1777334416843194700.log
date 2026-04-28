@@ -1,0 +1,20 @@
+$ npm run test
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mE:/minima/codedungeon/examples/v4/frontend[39m
+
+ [32m✓[39m components/ChatApp.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 846[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mstreams a sent message through the composer [33m 356[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mshows a user-visible error when sending fails [33m 313[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m   Start at [22m 21:00:14
+[2m   Duration [22m 2.34s[2m (transform 57ms, setup 68ms, collect 358ms, tests 846ms, environment 492ms, prepare 59ms)[22m
+
+[stderr]
+

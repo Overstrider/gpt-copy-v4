@@ -1,0 +1,25 @@
+$ npm run test
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv3.2.4 [39m[90mE:/minima/codedungeon/examples/v4/frontend[39m
+
+ [32m✓[39m lib/api.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m components/ChatApp.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 3509[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mstreams a sent message through the composer [33m 378[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mkeeps delivered stream output visible when post-send refresh fails [33m 700[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mremoves partial assistant output and reloads persisted messages after a mid-stream error [33m 518[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mreloads messages when sending fails before stream events arrive [33m 515[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mkeeps the original stream error when recovery refetch fails [33m 424[2mms[22m[39m
+   [33m[2m✓[22m[39m ChatApp[2m > [22mprevents switching conversations while a stream is in flight [33m 515[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m2 passed[39m[22m[90m (2)[39m
+[2m      Tests [22m [1m[32m11 passed[39m[22m[90m (11)[39m
+[2m   Start at [22m 22:54:27
+[2m   Duration [22m 5.17s[2m (transform 93ms, setup 148ms, collect 428ms, tests 3.52s, environment 1.03s, prepare 518ms)[22m
+
+[stderr]
+

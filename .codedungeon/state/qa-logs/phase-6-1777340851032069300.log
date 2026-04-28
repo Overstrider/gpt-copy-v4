@@ -1,0 +1,8 @@
+$ npm run lint
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 lint
+> eslint . --max-warnings=0
+
+[stderr]
+

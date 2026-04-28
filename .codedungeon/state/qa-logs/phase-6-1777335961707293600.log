@@ -1,0 +1,28 @@
+$ cargo test stream_decoder_accepts_utf8_split_across_network_chunks
+
+[stdout]
+
+
+[stderr]
+Compiling gpt-copy-v4-backend v0.1.0 (E:\minima\codedungeon\examples\v4\backend)
+warning: unused import: `super::*`
+   --> src\openrouter.rs:233:9
+    |
+233 |     use super::*;
+    |         ^^^^^^^^
+    |
+    = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+error[E0425]: cannot find function `decode_sse_stream` in this scope
+   --> src\openrouter.rs:249:23
+    |
+249 |         let decoded = decode_sse_stream(stream::iter(chunks))
+    |                       ^^^^^^^^^^^^^^^^^ not found in this scope
+
+For more information about this error, try `rustc --explain E0425`.
+warning: `gpt-copy-v4-backend` (lib test) generated 1 warning
+error: could not compile `gpt-copy-v4-backend` (lib test) due to 1 previous error; 1 warning emitted
+warning: build failed, waiting for other jobs to finish...
+
+[error]
+exit status 101

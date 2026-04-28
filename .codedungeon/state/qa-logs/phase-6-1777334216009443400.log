@@ -1,0 +1,21 @@
+$ npm run lint
+
+[stdout]
+> gpt-copy-v4-frontend@0.1.0 lint
+> eslint . --max-warnings=0
+
+
+E:\minima\codedungeon\examples\v4\frontend\components\ChatApp.tsx
+  42:9  warning  The 'conversations' logical expression could make the dependencies of useEffect Hook (at line 48) change on every render. To fix this, wrap the initialization of 'conversations' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  42:9  warning  The 'conversations' logical expression could make the dependencies of useMemo Hook (at line 72) change on every render. To fix this, wrap the initialization of 'conversations' in its own useMemo() Hook    react-hooks/exhaustive-deps
+
+E:\minima\codedungeon\examples\v4\frontend\postcss.config.js
+  1:1  warning  Assign object to a variable before exporting as module default  import/no-anonymous-default-export
+
+✖ 3 problems (0 errors, 3 warnings)
+
+[stderr]
+ESLint found too many warnings (maximum: 0).
+
+[error]
+exit status 1

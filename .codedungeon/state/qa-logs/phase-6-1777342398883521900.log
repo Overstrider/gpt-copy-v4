@@ -1,0 +1,7 @@
+$ cargo fmt --check
+
+[stdout]
+
+
+[stderr]
+

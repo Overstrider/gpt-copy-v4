@@ -1,0 +1,21 @@
+{
+  "verdict": "APPROVED",
+  "tally": {
+    "actionable": {
+      "p0": 0,
+      "p1": 0,
+      "p2": 0
+    },
+    "design_decisions": 0,
+    "dropped": 0
+  },
+  "findings": [],
+  "personas_run": [
+    "saboteur",
+    "newhire",
+    "security",
+    "spec"
+  ],
+  "validator_model": "SKIPPED",
+  "classifier_model": "SKIPPED"
+}
