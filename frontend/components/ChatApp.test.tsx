@@ -289,6 +289,7 @@ describe("ChatApp", () => {
     await user.click(screen.getByRole("button", { name: /send message/i }));
 
     expect(await screen.findByText("Provider failed mid-stream")).toBeInTheDocument();
+    expect(screen.getByText("Refetch will fail")).toBeInTheDocument();
     expect(screen.queryByText("Recovery fetch failed")).not.toBeInTheDocument();
     expect(screen.queryByText("partial that should clear")).not.toBeInTheDocument();
   });

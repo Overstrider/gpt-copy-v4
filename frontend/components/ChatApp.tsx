@@ -207,6 +207,12 @@ export function ChatApp() {
             queryFn: () => listMessages(conversationId),
           });
         } catch {
+          if (deliveredMessages.length > 0) {
+            queryClient.setQueryData<Message[]>(
+              ["messages", conversationId],
+              (current = []) => mergeMessagesById(current, deliveredMessages),
+            );
+          }
           // Keep the original stream error visible even if recovery refetch fails.
         }
       }
