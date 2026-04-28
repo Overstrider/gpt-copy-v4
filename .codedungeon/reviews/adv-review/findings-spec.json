@@ -1,0 +1,213 @@
+{
+  "persona": "spec_enforcer",
+  "review_metadata": {
+    "pr_number": 1,
+    "base_sha": "070dea5c5d746859f28ba9e061ba442975a0db53",
+    "head_sha": "a53f3eb375823bd932e693cb162f9cbb677fc7f5",
+    "scope": "Spec coverage review for E:\\minima\\codedungeon\\examples\\v4 PR #1 after commit a53f3eb375823bd932e693cb162f9cbb677fc7f5, comparing approved plans, phase outputs, task contracts, acceptance criteria, delivered source, docs, tests, and latest CodeDungeon QA logs phase-6-1777341632408147700 through phase-6-1777341666180492400.",
+    "local_rules_status_command": {
+      "command": "..\\..\\.codex\\bin\\codedungeon.exe rules status",
+      "working_directory": "E:\\minima\\codedungeon\\examples\\v4",
+      "status": "approved",
+      "rules_digest": "3cfc7da06128fb69b4457625bdb2ea6a46298c99ef604ed165dae89855c63cbd"
+    },
+    "manifest": {
+      "path": "examples/v4/.codedungeon/reviews/adv-review/review-manifest.json",
+      "head_sha": "a53f3eb375823bd932e693cb162f9cbb677fc7f5",
+      "timestamp": "2026-04-28T02:04:00.0000000Z"
+    }
+  },
+  "reviewed_files": 37,
+  "reviewed_files_list": [
+    "examples/v4/.codedungeon/plans/gpt-copy-v4-architecture.md",
+    "examples/v4/.codedungeon/plans/gpt-copy-v4-domain-plan.md",
+    "examples/v4/.codedungeon/plans/gpt-copy-v4-qa-traps.md",
+    "examples/v4/.codedungeon/tasks/gpt-copy-v4-tasks.md",
+    "examples/v4/.codedungeon/state/phase-0-output.md",
+    "examples/v4/.codedungeon/state/phase-1-output.md",
+    "examples/v4/.codedungeon/state/phase-2prime-output.md",
+    "examples/v4/.codedungeon/state/phase-35-output.md",
+    "examples/v4/.codedungeon/state/phase-4-output.md",
+    "examples/v4/.codedungeon/reviews/adv-review/review-manifest.json",
+    "examples/v4/.env.example",
+    "examples/v4/.gitignore",
+    "examples/v4/README.md",
+    "examples/v4/backend/Cargo.toml",
+    "examples/v4/backend/src/config.rs",
+    "examples/v4/backend/src/db.rs",
+    "examples/v4/backend/src/error.rs",
+    "examples/v4/backend/src/lib.rs",
+    "examples/v4/backend/src/main.rs",
+    "examples/v4/backend/src/models.rs",
+    "examples/v4/backend/src/openrouter.rs",
+    "examples/v4/backend/src/routes.rs",
+    "examples/v4/frontend/app/page.tsx",
+    "examples/v4/frontend/components/ChatApp.tsx",
+    "examples/v4/frontend/components/ChatApp.test.tsx",
+    "examples/v4/frontend/components/Providers.tsx",
+    "examples/v4/frontend/e2e/chat.spec.ts",
+    "examples/v4/frontend/lib/api.test.ts",
+    "examples/v4/frontend/lib/api.ts",
+    "examples/v4/frontend/lib/types.ts",
+    "examples/v4/frontend/package.json",
+    "examples/v4/frontend/playwright.config.ts",
+    "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341632408147700.log",
+    "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341633005503500.log",
+    "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341643851678000.log",
+    "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341658046634300.log",
+    "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341666180492400.log"
+  ],
+  "project_rules": {
+    "PROJECT_RULES_STATUS": "approved",
+    "PROJECT_RULES_DIGEST": "3cfc7da06128fb69b4457625bdb2ea6a46298c99ef604ed165dae89855c63cbd",
+    "PROJECT_RULES_READ": "yes"
+  },
+  "requirement_coverage_summary": [
+    {
+      "requirement": "Approved plan, phase output, task contracts, and review artifacts preserve the Project Rules envelope and define the expected local ChatGPT-style app scope.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/.codedungeon/plans/gpt-copy-v4-architecture.md defines the Rust Axum backend, SQLite schema, OpenRouter proxy boundary, Next.js frontend, and verification plan.",
+        "examples/v4/.codedungeon/plans/gpt-copy-v4-domain-plan.md defines backend, frontend, QA, and review persona responsibilities.",
+        "examples/v4/.codedungeon/plans/gpt-copy-v4-qa-traps.md defines validation, persistence, streaming, frontend, and verification traps.",
+        "examples/v4/.codedungeon/tasks/gpt-copy-v4-tasks.md decomposes backend bootstrap, persistence, provider, frontend API/UI, docs, and QA/review work.",
+        "examples/v4/.codedungeon/state/phase-0-output.md through phase-4-output.md record completed planning phases with PROJECT_RULES_STATUS, PROJECT_RULES_DIGEST, and PROJECT_RULES_READ.",
+        "examples/v4/.codedungeon/reviews/adv-review/review-manifest.json declares PR #1, base 070dea5c5d746859f28ba9e061ba442975a0db53, and head a53f3eb375823bd932e693cb162f9cbb677fc7f5."
+      ]
+    },
+    {
+      "requirement": "Backend implements the planned Rust 2024 Axum API, SQLite persistence, structured errors, CORS, tracing, health, conversation, message, and streaming routes.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/backend/Cargo.toml uses edition = \"2024\" and includes Axum, sqlx SQLite, tower-http CORS/trace, reqwest, tokio, serde, and test dependencies.",
+        "examples/v4/backend/src/routes.rs wires /health, /api/conversations, /api/conversations/{conversation_id}/messages, /api/conversations/{conversation_id}/messages/stream, CORS, and TraceLayer.",
+        "examples/v4/backend/src/db.rs creates and migrates conversations/messages tables with the planned columns, foreign key, and index.",
+        "examples/v4/backend/src/error.rs returns structured JSON errors with code/message/details shape.",
+        "examples/v4/backend/src/lib.rs covers health, validation, persistence, repository, provider, streaming, title provenance, config, and decoder behavior in tests."
+      ]
+    },
+    {
+      "requirement": "OpenRouter is server-side only, configurable through OPENROUTER_API_KEY and OPENROUTER_MODEL, with tests avoiding real provider calls.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/backend/src/config.rs loads OPENROUTER_API_KEY and OPENROUTER_MODEL and defaults the model to nvidia/nemotron-3-super-120b-a12b:free.",
+        "examples/v4/backend/src/openrouter.rs implements the provider client and ChatProvider trait inside backend code only.",
+        "examples/v4/frontend/lib/api.ts references only NEXT_PUBLIC_API_BASE_URL for browser API calls and contains no OpenRouter credential handling.",
+        "examples/v4/backend/src/lib.rs uses MockProvider, FailingStreamProvider, and EmptyStreamProvider for provider behavior tests without network calls."
+      ]
+    },
+    {
+      "requirement": "Frontend implements the planned Next.js App Router chat UI with conversation sidebar, transcript, composer, TanStack Query, zod validation, native streaming fetch, and markdown rendering.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/frontend/app/page.tsx renders ChatApp as the first screen.",
+        "examples/v4/frontend/components/ChatApp.tsx renders sidebar, transcript, composer, loading/error states, mobile sidebar controls, and assistant markdown via ReactMarkdown with remark-gfm.",
+        "examples/v4/frontend/components/ChatApp.tsx uses TanStack Query for conversation and message reads plus cache reconciliation.",
+        "examples/v4/frontend/lib/api.ts defines zod schemas for DTOs and stream events, and implements native fetch streaming with done-event enforcement.",
+        "examples/v4/frontend/package.json declares the planned Next, React, Tailwind, TanStack Query, zod, react-markdown, Vitest, Testing Library, and Playwright dependencies/scripts."
+      ]
+    },
+    {
+      "requirement": "Input validation and structured error behavior cover blank titles/messages and unknown conversations.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/backend/src/routes.rs validates titles and messages, rejects blanks, enforces length limits, and uses ensure_conversation for not_found errors.",
+        "examples/v4/frontend/lib/api.ts preserves createConversation(\"\") as {\"title\":\"\"} so backend validation receives the blank title.",
+        "examples/v4/frontend/lib/api.test.ts verifies blank title payload preservation.",
+        "examples/v4/backend/src/lib.rs verifies structured validation errors."
+      ]
+    },
+    {
+      "requirement": "Streaming setup failure, empty stream, truncated stream, split UTF-8, done-event handling, and final assistant persistence behavior match the plan.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/backend/src/routes.rs acquires the provider stream before persisting the user turn, emits user/chunk/error/assistant/done NDJSON events, and persists assistant output only after non-empty successful stream content.",
+        "examples/v4/backend/src/openrouter.rs decodes OpenRouter SSE lines, buffers split UTF-8 across chunks, and rejects streams that end before data: [DONE].",
+        "examples/v4/frontend/lib/api.ts throws when an NDJSON stream closes before a done event.",
+        "examples/v4/backend/src/lib.rs tests setup failure persistence behavior, empty stream persistence behavior, and mocked stream assistant persistence.",
+        "examples/v4/backend/src/openrouter.rs tests missing [DONE] rejection and split UTF-8 decoding.",
+        "examples/v4/frontend/lib/api.test.ts tests truncated stream rejection and done-event completion."
+      ]
+    },
+    {
+      "requirement": "Frontend stream recovery behavior remains correct, including post-success refresh failure and a following in-flight send.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/frontend/components/ChatApp.tsx records delivered user/assistant messages during stream callbacks.",
+        "examples/v4/frontend/components/ChatApp.tsx writes delivered messages into the [\"messages\", conversationId] query cache if post-send refresh fails, then clears pendingTurn.",
+        "examples/v4/frontend/components/ChatApp.tsx clears failed partial stream state, preserves the original send/stream error, and suppresses secondary recovery refetch errors.",
+        "examples/v4/frontend/components/ChatApp.test.tsx verifies delivered output remains visible when post-send refresh fails and remains visible during a following in-flight send.",
+        "examples/v4/frontend/components/ChatApp.test.tsx verifies mid-stream failure cleanup, pre-stream failure reload, failed recovery refetch behavior, and in-flight conversation switching prevention."
+      ]
+    },
+    {
+      "requirement": "Conversation switching during an in-flight stream is prevented and new-conversation post-stream message visibility is verified.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/frontend/components/ChatApp.tsx scopes pending turns by conversation id and disables new/select sidebar actions while sending.",
+        "examples/v4/frontend/components/ChatApp.test.tsx verifies switching to another conversation is disabled during an in-flight stream.",
+        "examples/v4/frontend/e2e/chat.spec.ts verifies sending from an initially empty state creates/uses a conversation and leaves user and assistant messages visible after the send."
+      ]
+    },
+    {
+      "requirement": "Same-origin Playwright intercepted stream path is verified.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/frontend/playwright.config.ts sets baseURL and NEXT_PUBLIC_API_BASE_URL to http://127.0.0.1:3000 for e2e.",
+        "examples/v4/frontend/e2e/chat.spec.ts intercepts **/api/** and asserts the stream request origin is http://127.0.0.1:3000.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341666180492400.log records npm run test:e2e passing with 1 test."
+      ]
+    },
+    {
+      "requirement": "Local-only guard, placeholder environment defaults, gitignore, and docs match implemented behavior.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/backend/src/config.rs rejects non-loopback BIND_ADDR values.",
+        "examples/v4/.env.example contains placeholder OPENROUTER_API_KEY and non-secret defaults only.",
+        "examples/v4/.gitignore excludes real env files, backend local databases/build outputs, frontend node/build/test outputs, and CodeDungeon db journals/logs.",
+        "examples/v4/README.md documents local-only non-loopback rejection, backend/frontend commands, OpenRouter env variables, verification commands, and sqlite:// cwd behavior."
+      ]
+    },
+    {
+      "requirement": "title_generated schema and generated-vs-explicit title behavior match the architecture plan.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/backend/src/db.rs includes title_generated in ConversationRecord, creates/migrates the title_generated column, and only replaces generated titles from the first user message.",
+        "examples/v4/backend/src/routes.rs validates create-conversation title provenance through validate_title.",
+        "examples/v4/backend/src/lib.rs tests that an explicit \"New chat\" title is not replaced by the first user message."
+      ]
+    },
+    {
+      "requirement": "Required verification commands are recorded in the requested latest CodeDungeon QA logs.",
+      "status": "covered",
+      "evidence": [
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341632408147700.log records cargo fmt --check.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341633005503500.log records cargo test with 12 passed.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341633518817000.log records cargo clippy --all-targets --all-features -- -D warnings.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341634066501200.log records cargo build.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341635875339200.log records npm run lint.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341637626493100.log records npm run typecheck.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341643851678000.log records npm run test with 11 passed.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341658046634300.log records npm run build.",
+        "examples/v4/.codedungeon/state/qa-logs/phase-6-1777341666180492400.log records npm run test:e2e with 1 passed."
+      ]
+    }
+  ],
+  "spec_deviations": [],
+  "required_follow_up_work": [],
+  "unverified_assumptions": [
+    {
+      "assumption": "The current examples/v4 working tree corresponds to requested head a53f3eb375823bd932e693cb162f9cbb677fc7f5.",
+      "reason": "The parent repository does not contain local git objects for the supplied base/head SHAs, and the GitHub connector returned 404 for Overstrider/codedungeon PR #1. The nested CodeDungeon review manifest identifies PR #1 at head a53f3eb375823bd932e693cb162f9cbb677fc7f5, so this review used the current examples/v4 source and artifacts as delivered behavior evidence."
+    }
+  ],
+  "findings": [],
+  "no_findings_rationale": "No actionable spec deviations were found for examples/v4 PR #1 at head a53f3eb375823bd932e693cb162f9cbb677fc7f5. The approved plans, phase handoffs, and task decomposition define a local ChatGPT-style application with a Rust 2024 Axum SQLite/OpenRouter backend and a Next.js frontend. The delivered source implements that scope, documentation and environment defaults match implemented local-only and cwd-sensitive behavior, tests cover the backend, frontend, stream, cache recovery, title, and Playwright behaviors they claim to cover, and the requested latest CodeDungeon QA logs record the required backend and frontend verification commands passing. The latest delta specifically reconciles delivered stream messages into the query cache when the post-send refresh fails and adds focused component coverage proving those messages remain visible during a following in-flight send.",
+  "rubric_self_check": {
+    "acceptance_criteria": "Every acceptance item from the approved plans, phase outputs, task decomposition, prompt scope, and latest follow-up behavior was mapped to code, tests, docs, phase artifacts, or QA logs.",
+    "tests_cover_claims": "Backend tests cover health, validation, persistence, mocked provider behavior, setup failure persistence, empty streams, missing provider DONE, split UTF-8, title provenance, DB cwd defaults, and local bind validation. Frontend tests cover API validation, blank title payloads, stream done enforcement, successful sends, post-success refresh failure cache persistence across a following send, send failure, recovery cleanup, and in-flight conversation locking. Playwright covers same-origin intercepted send UX.",
+    "docs_and_prompts": "README.md, .env.example, approved plans, phase outputs, task files, and prompt scope match implemented behavior reviewed here.",
+    "hidden_expansion": "No behavior outside the approved local backend/frontend OpenRouter-proxy chat application scope was found.",
+    "verification": "Latest QA logs phase-6-1777341632408147700 through phase-6-1777341666180492400 record fmt, backend tests, clippy, backend build, lint, typecheck, frontend tests, frontend build, and e2e passing."
+  }
+}

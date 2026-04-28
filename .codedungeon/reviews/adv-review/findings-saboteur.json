@@ -1,0 +1,67 @@
+{
+  "persona": "saboteur",
+  "review_metadata": {
+    "pr_number": 1,
+    "base_sha": "070dea5c5d746859f28ba9e061ba442975a0db53",
+    "head_sha": "a53f3eb375823bd932e693cb162f9cbb677fc7f5",
+    "scope": "Adversarial correctness recheck of PR #1 after commit a53f3eb375823bd932e693cb162f9cbb677fc7f5, focused on mid-stream error recovery with failed refetch, post-success refresh failure cache fallback, stream completion contracts, empty streams, stale cache state, and prior review findings.",
+    "verification": [
+      {
+        "command": "npm run test -- --run components/ChatApp.test.tsx lib/api.test.ts",
+        "working_directory": "E:\\minima\\codedungeon\\examples\\v4\\frontend",
+        "result": "passed",
+        "evidence": "2 test files passed, 11 tests passed. Covered ChatApp recovery/refetch failure paths and api stream done-event handling."
+      },
+      {
+        "command": "cargo test",
+        "working_directory": "E:\\minima\\codedungeon\\examples\\v4\\backend",
+        "result": "blocked",
+        "evidence": "cargo is not available in this shell: The term 'cargo' is not recognized as the name of a cmdlet, function, script file, or operable program."
+      },
+      {
+        "command": "git diff --check 070dea5c5d746859f28ba9e061ba442975a0db53 a53f3eb375823bd932e693cb162f9cbb677fc7f5",
+        "working_directory": "E:\\minima\\codedungeon\\examples\\v4",
+        "result": "non_blocking_review_artifact_noise",
+        "evidence": "Reported trailing whitespace and blank-line issues only in generated .codedungeon/state/qa-logs files, not in reviewed source paths."
+      }
+    ],
+    "actual_rules_status_observed": {
+      "status": "stale",
+      "rules_digest": "5a186771f4c4a4c27c3a187bedfab7c4bebd2cb76735c6eff80d2bc1d0098dd3",
+      "source_digest": "83ff3b2899452b3d66f1184639238ab59351bae5e4bbfa84c88184628fb6b5da",
+      "stale_reason": "source digest changed"
+    }
+  },
+  "reviewed_files": 12,
+  "reviewed_files_list": [
+    "frontend/components/ChatApp.tsx",
+    "frontend/components/ChatApp.test.tsx",
+    "frontend/lib/api.ts",
+    "frontend/lib/api.test.ts",
+    "frontend/lib/types.ts",
+    "backend/src/routes.rs",
+    "backend/src/openrouter.rs",
+    "backend/src/lib.rs",
+    "backend/src/db.rs",
+    ".codedungeon/reviews/adv-review/findings-newhire.json",
+    ".codedungeon/reviews/adv-review/findings-security_auditor.json",
+    ".codedungeon/reviews/adv-review/findings-spec_enforcer.json"
+  ],
+  "project_rules": {
+    "PROJECT_RULES_STATUS": "approved",
+    "PROJECT_RULES_DIGEST": "3cfc7da06128fb69b4457625bdb2ea6a46298c99ef604ed165dae89855c63cbd",
+    "PROJECT_RULES_READ": "yes"
+  },
+  "findings": [],
+  "no_findings_rationale": "No concrete correctness defect was found in the requested recheck scope. The prior post-success refresh failure issue is addressed by merging delivered user and assistant messages into the TanStack messages cache before clearing pendingTurn when the refresh fails, and the component test now exercises a second send after that failure so the delivered first turn cannot disappear when pendingTurn is reset. The latest recovery-refetch failure change preserves a delivered user_message by merging deliveredMessages into the cache if recovery fetchQuery fails; partial assistant chunks are not cached, so mid-stream provider failure still clears incomplete assistant output while keeping the original stream error visible. The frontend stream client rejects streams that close without a done event, and the backend OpenRouter decoder rejects upstream SSE without data: [DONE]. Backend streaming persists the user only after provider stream setup succeeds, returns an error event without assistant persistence for empty or failed streams, and emits assistant_message followed by done only after assistant persistence succeeds. I also checked stale cache, sequential retry, conversation switching during in-flight sends, empty input, and prior persona findings; I found no plausible surviving regression with a concrete execution path. Focused frontend tests passed. Backend tests could not be re-run in this shell because cargo is unavailable, but the reviewed backend paths were static-checked against the existing tests and QA evidence already present in the PR artifacts.",
+  "rubric_self_check": {
+    "correctness": "Reviewed the changed recovery and cache ownership paths and found no surviving message-loss, duplicate, or stale-state defect with the existing single-send-at-a-time UI contract.",
+    "empty_input": "Blank draft submits return before mutation; backend validate_message rejects blank content.",
+    "retries": "Sequential next-send after post-success refresh failure is covered by code and test because delivered messages are now query-cache owned, not pendingTurn-owned.",
+    "concurrency": "Conversation switches and new-chat actions are disabled while sending; no concurrent submit path was found because handleSubmit gates on isSending.",
+    "partial_failure": "Mid-stream provider failure plus failed recovery refetch preserves delivered user_message through cache fallback and keeps partial assistant chunks out of durable display state.",
+    "stale_state": "Delivered stream messages are merged by id into cached messages on refresh/recovery failure, so clearing pendingTurn no longer drops completed delivered messages.",
+    "platform": "Frontend tests passed on this Windows PowerShell environment; backend cargo verification was blocked by missing cargo binary.",
+    "tests": "Focused frontend tests cover stream done contracts, post-success refresh failure through next send, mid-stream failure cleanup, pre-stream failure recovery, and failed recovery refetch."
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "pr_number": "1",
+  "base_sha": "070dea5c5d746859f28ba9e061ba442975a0db53",
+  "head_sha": "a53f3eb375823bd932e693cb162f9cbb677fc7f5",
+  "timestamp": "2026-04-28T02:04:00.0000000Z",
+  "personas_expected": [
+    "saboteur",
+    "security",
+    "spec",
+    "newhire"
+  ]
+}

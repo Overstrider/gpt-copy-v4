@@ -1,0 +1,57 @@
+{
+  "persona": "newhire",
+  "review_metadata": {
+    "pr_number": 1,
+    "base_sha": "070dea5c5d746859f28ba9e061ba442975a0db53",
+    "head_sha": "a53f3eb375823bd932e693cb162f9cbb677fc7f5",
+    "scope": "Maintainability review of examples/v4 for hidden contracts, surprising ownership, unclear coupling, and the requested recheck areas: fallback cache behavior for post-success and mid-error refresh failures, next-send preservation, pending stream ownership, title_generated plan, database cwd documentation, and stream done contracts.",
+    "actual_rules_status_observed": {
+      "status": "stale",
+      "rules_digest": "5a186771f4c4a4c27c3a187bedfab7c4bebd2cb76735c6eff80d2bc1d0098dd3",
+      "source_digest": "83ff3b2899452b3d66f1184639238ab59351bae5e4bbfa84c88184628fb6b5da",
+      "stale_reason": "source digest changed"
+    },
+    "commit_range_limitations": [
+      "Local git could not resolve base_sha 070dea5c5d746859f28ba9e061ba442975a0db53.",
+      "Local git could not resolve head_sha a53f3eb375823bd932e693cb162f9cbb677fc7f5.",
+      "Review therefore covered the current checked-out examples/v4 source tree, tests, docs, and existing review artifacts."
+    ]
+  },
+  "reviewed_files": 21,
+  "reviewed_files_list": [
+    ".codedungeon/project-rules.compact.md",
+    ".codedungeon/reviews/adv-review/findings-newhire.json",
+    ".codedungeon/reviews/adv-review/findings-saboteur.json",
+    ".codedungeon/reviews/adv-review/findings-security_auditor.json",
+    ".codedungeon/reviews/adv-review/findings-spec_enforcer.json",
+    "examples/v4/.codedungeon/reviews/adv-review/findings-newhire.json",
+    "examples/v4/.env.example",
+    "examples/v4/AGENTS.md",
+    "examples/v4/README.md",
+    "examples/v4/backend/src/config.rs",
+    "examples/v4/backend/src/db.rs",
+    "examples/v4/backend/src/lib.rs",
+    "examples/v4/backend/src/models.rs",
+    "examples/v4/backend/src/openrouter.rs",
+    "examples/v4/backend/src/routes.rs",
+    "examples/v4/frontend/components/ChatApp.tsx",
+    "examples/v4/frontend/components/ChatApp.test.tsx",
+    "examples/v4/frontend/e2e/chat.spec.ts",
+    "examples/v4/frontend/lib/api.test.ts",
+    "examples/v4/frontend/lib/api.ts",
+    "examples/v4/frontend/lib/types.ts"
+  ],
+  "project_rules": {
+    "PROJECT_RULES_STATUS": "approved",
+    "PROJECT_RULES_DIGEST": "3cfc7da06128fb69b4457625bdb2ea6a46298c99ef604ed165dae89855c63cbd",
+    "PROJECT_RULES_READ": "yes"
+  },
+  "findings": [],
+  "no_findings_rationale": "No concrete maintainability risk was found in the reviewed examples/v4 surface. The previous pendingTurn hidden-ownership failure mode is no longer present: ChatApp merges delivered stream messages into the TanStack messages cache when the post-success refresh fails, clears pendingTurn, and has a regression test proving the delivered user and assistant messages remain visible during the next send. The mid-stream error path also keeps the original stream error visible, clears partial assistant output, attempts to refetch persisted messages, and falls back to merging delivered user_message events into the cache if that recovery refetch fails; the nearby test asserts the delivered user message remains visible while the recovery fetch error stays hidden. Pending stream ownership is scoped by conversationId and sidebar/new-chat actions are disabled while a stream is in flight, with a focused test preventing conversation switching during a stream. The title_generated contract is explicit in the repository schema and route creation path, and tests cover explicit 'New chat' title preservation. The default SQLite cwd behavior is documented in README troubleshooting and asserted in config tests. Both frontend NDJSON and backend OpenRouter SSE stream parsers enforce completion sentinels, and tests cover missing done/[DONE] behavior. These contracts are either named in code, covered by nearby tests, or documented where a new contributor would look before changing the touched surface.",
+  "rubric_self_check": {
+    "confusing_behavior_explained": "Checked the stream/cache fallback paths against ChatApp tests and API tests; the non-obvious failure-mode behavior is represented by focused tests rather than relying on comments.",
+    "names_and_boundaries": "Checked ChatApp, StreamHandlers, StreamEvent, AppState, ChatProvider, ConversationRecord, and MessageRecord boundaries; names match existing project language and ownership remains in route/db/provider/frontend layers.",
+    "hidden_contracts": "Rechecked post-success refresh failure, mid-error recovery failure, next-send preservation, pending stream scoping, generated-title provenance, DB cwd defaults, and stream done sentinels; no untested or undocumented coupling remains likely to mislead a new contributor.",
+    "small_remediation": "No remediation recommended because no concrete risk remains after the cache fallback and second-send coverage."
+  }
+}
