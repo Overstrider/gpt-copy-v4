@@ -165,17 +165,28 @@ export function ChatApp() {
         },
       });
 
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ["conversations"] }),
-        queryClient.invalidateQueries({ queryKey: ["messages", conversationId] }),
-      ]);
+      await queryClient.invalidateQueries({ queryKey: ["conversations"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["messages", conversationId],
+        refetchType: "none",
+      });
+      await queryClient.fetchQuery({
+        queryKey: ["messages", conversationId],
+        queryFn: () => listMessages(conversationId),
+      });
       setPendingTurn(null);
     } catch (caught) {
       if (activeConversationId) {
-        await Promise.all([
-          queryClient.invalidateQueries({ queryKey: ["conversations"] }),
-          queryClient.invalidateQueries({ queryKey: ["messages", activeConversationId] }),
-        ]);
+        const conversationId = activeConversationId;
+        await queryClient.invalidateQueries({ queryKey: ["conversations"] });
+        await queryClient.invalidateQueries({
+          queryKey: ["messages", conversationId],
+          refetchType: "none",
+        });
+        await queryClient.fetchQuery({
+          queryKey: ["messages", conversationId],
+          queryFn: () => listMessages(conversationId),
+        });
       }
       setPendingTurn(null);
       setError(caught instanceof Error ? caught.message : "Message failed to send.");

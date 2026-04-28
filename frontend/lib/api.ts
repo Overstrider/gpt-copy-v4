@@ -100,6 +100,14 @@ export async function sendMessageStream(
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   let buffer = "";
+  let sawDone = false;
+  const streamHandlers: StreamHandlers = {
+    ...handlers,
+    onDone: () => {
+      sawDone = true;
+      handlers.onDone?.();
+    },
+  };
 
   for (;;) {
     const { value, done } = await reader.read();
@@ -107,11 +115,15 @@ export async function sendMessageStream(
       break;
     }
     buffer += decoder.decode(value, { stream: true });
-    buffer = processLines(buffer, handlers);
+    buffer = processLines(buffer, streamHandlers);
   }
 
   buffer += decoder.decode();
-  processLines(`${buffer}\n`, handlers);
+  processLines(`${buffer}\n`, streamHandlers);
+
+  if (!sawDone) {
+    throw new Error("Streaming response ended before completion.");
+  }
 }
 
 async function requestJson(url: string, init?: RequestInit): Promise<unknown> {
