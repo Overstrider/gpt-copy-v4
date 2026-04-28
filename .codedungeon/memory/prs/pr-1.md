@@ -148,7 +148,7 @@ Work Done
 - Tasks: unknown
 - Changed files: unknown
 - Verification: C:\Users\loldi\.cargo\bin\cargo.exe fmt --check: PASS; C:\Users\loldi\.cargo\bin\cargo.exe fmt: PASS; C:\Users\loldi\.cargo\bin\cargo.exe test: PASS; C:\Users\loldi\.cargo\bin\cargo.exe clippy --all-targets --all-features -- -D warnings: PASS; npm run typecheck: PASS; npm run lint: PASS; npm run test: PASS; npm run build: PASS; npm run test:e2e: PASS; cargo test stream_decoder_accepts_utf8_split_across_network_chunks: PASS; npm run test -- lib/api.test.ts components/ChatApp.test.tsx: PASS; npm run test -- components/ChatApp.test.tsx -t mid-stream: PASS; cargo test default_database_url_matches_documented_backend_cwd: PASS; cargo test explicit_new_chat_title_is_not_replaced_by_first_message: PASS; cargo test non_loopback_bind_is_rejected_by_default: PASS; cargo fmt --check: PASS; cargo test: PASS; cargo clippy --all-targets --all-features -- -D warnings: PASS; cargo build: PASS; cargo test stream_setup_failure_does_not_persist_user_message: PASS; npm run test -- components/ChatApp.test.tsx -t before: PASS; cargo test empty_provider_stream_does_not_persist_blank_assistant_message: PASS
-- Telemetry: WARN - 20 agents recorded; open=4 completed=11 failed=2 aborted=3
+- Telemetry: WARN - 20 agents recorded; open=0 completed=11 failed=2 aborted=7
 
 PR
 https://github.com/Overstrider/gpt-copy-v4/pull/1
